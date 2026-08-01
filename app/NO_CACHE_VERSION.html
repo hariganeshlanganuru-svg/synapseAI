@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SynapseAI - Load Fresh Version</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: white;
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 500px;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+    p {
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 18px 40px;
+      font-size: 18px;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+    }
+    .version {
+      margin-top: 30px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="pulse">🔄 Loading Fresh Version</h1>
+    <p>This page will automatically clear cache and load the latest version of SynapseAI with all your changes.</p>
+    <button class="btn" onclick="loadFreshVersion()">
+      🚀 Launch SynapseAI (Fresh)
+    </button>
+    <div class="version">
+      <strong>Timestamp:</strong> <span id="timestamp"></span><br>
+      <small>Every time you click, it loads the absolute latest version from disk.</small>
+    </div>
+  </div>
+
+  <script>
+    // Display current timestamp
+    document.getElementById('timestamp').textContent = new Date().toLocaleString();
+
+    // Function to load fresh version
+    function loadFreshVersion() {
+      // Generate unique timestamp to bust cache
+      const timestamp = new Date().getTime();
+      const randomNum = Math.floor(Math.random() * 1000000);
+      
+      // Redirect to index.html with cache-busting parameters
+      window.location.href = `./index.html?v=${timestamp}&r=${randomNum}`;
+    }
+
+    // Auto-redirect after 3 seconds
+    let countdown = 3;
+    const countdownInterval = setInterval(() => {
+      countdown--;
+      if (countdown <= 0) {
+        clearInterval(countdownInterval);
+        loadFreshVersion();
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

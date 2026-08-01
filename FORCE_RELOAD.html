@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Force Reload - SynapseAI</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .steps {
+            text-align: left;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+        .steps li {
+            margin: 10px 0;
+            color: #444;
+        }
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Force Refresh Required</h1>
+        <p>
+            To see all the latest changes in SynapseAI, you need to clear your browser cache and force reload the page.
+        </p>
+        
+        <div class="steps">
+            <h3>Follow these steps:</h3>
+            <ol>
+                <li>Press <span class="highlight">Ctrl+Shift+Delete</span> (Windows) or <span class="highlight">Cmd+Shift+Delete</span> (Mac)</li>
+                <li>Select "Cached images and files"</li>
+                <li>Click "Clear data" or "Clear now"</li>
+                <li>Close this window</li>
+                <li>Open <strong>index.html</strong> again</li>
+            </ol>
+            
+            <p style="margin-top: 20px;"><strong>Or use this quick shortcut:</strong></p>
+            <p>Press <span class="highlight">Ctrl+Shift+R</span> (Windows) or <span class="highlight">Cmd+Shift+R</span> (Mac) on the main page</p>
+        </div>
+
+        <a href="./app/index.html" class="btn" onclick="location.reload(true); return false;">
+            Open SynapseAI (Clear Cache First!)
+        </a>
+
+        <p style="margin-top: 30px; font-size: 14px; color: #999;">
+            All changes are saved to disk and permanent. You just need to clear the old cached version from your browser.
+        </p>
+    </div>
+
+    <script>
+        // Automatically redirect after showing instructions
+        setTimeout(() => {
+            if (confirm('Have you cleared your browser cache? Click OK to open the app.')) {
+                window.location.href = './app/index.html?v=' + Date.now();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

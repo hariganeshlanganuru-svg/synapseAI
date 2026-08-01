@@ -1,0 +1,91 @@
+switchRole:
+function switchRole(roleKey, btn) {
+      currentRole = roleKey;
+      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active-role'));
+      if (btn) btn.classList.add('active-role');
+      
+      const config = ROLE_CONFIG[currentRole];
+      
+      document.documentElement.style.setProperty('--accent-primary', config.accent);
+      document.documentElement.style.setProperty('--accent-gradient', `linear-gradient(135deg, ${config.accent} 0%, #8B5CF6 50%, #06B6D4 100%)`);
+      
+      document.getElementById('role-avatar').textContent = config.abbr;
+      document.getElementById('role-name-display').textContent = config.label;
+      document.getElementById('role-nav-header').textContent = `${config.label} Navigation`;
+
+      const sidebarMenu = document.getElementById('role-sidebar-menu');
+      sidebarMenu.innerHTML = config.sidebarMenu.map((m, idx) => `
+        <li class="nav-item ${idx===0?'active':''}" onclick="switchPane('${m.id}', this)">
+          <i class="fa-solid ${m.icon}"></i> ${m.label}
+        </li>`).join('');
+
+      const heroDescContent = currentRole === 'Admin' ? config.getHeroDesc() : config.heroDesc;
+      document.getElementById('role-hero-banner').innerHTML = `
+        <h1 style="font-family:'Outfit'; font-size:1.8rem; margin-bottom:8px;">${config.heroHeading}</h1>
+        <div style="color:var(--text-muted); font-size:0.95rem; line-height:1.6;">${heroDescContent}</div>`;
+
+      const adminModules = document.getElementById('admin-exec-modules');
+      if (adminModules) {
+        adminModules.style.display = currentRole === 'Admin' ? 'flex' : 'none';
+      }
+
+      const scopeBadge = document.getElementById('chat-scope-badge');
+      if (scopeBadge) {
+        scopeBadge.textContent = `${currentRole} Scope`;
+        scopeBadge.className = `role-badge-inline ${config.cls}`;
+      }
+
+      const adminUploadBox = document.getElementById('admin-doc-upload-box');
+      if (adminUploadBox) {
+        adminUploadBox.style.display = (currentRole === 'Admin' || currentRole === 'HR') ? 'block' : 'none';
+      }
+
+      renderChatbotWelcomeScreen();
+      updateDashboardStatsUI();
+      if (currentRole === 'Admin') {
+        renderAdminPendingApprovals();
+      }
+
+      switchPane('role_dashboard', sidebarMenu.children[0]);
+      toast(`✨ Switched to <b>${config.label}</b>`, 'info', 2500);
+    }
+
+switchPane:
+function switchPane(paneId, navEl) {
+      // Track current feature for workflow reload
+      if (window.STATE) {
+        STATE.CURRENT_FEATURE = paneId;
+      }
+      
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      
+      const targetPane = document.getElementById(paneId);
+      let pageTitle = 'Executive Dashboard';
+      if (navEl) {
+        pageTitle = navEl.innerText.trim();
+        navEl.classList.add('active');
+      }
+
+      if (targetPane) {
+        targetPane.classList.add('active');
+      } else {
+        renderRoleFeatureView(paneId);
+        document.getElementById('role_features').classList.add('active');
+      }
+
+      if (paneId === 'role_dashboard' && currentRole === 'Admin') {
+        renderAdminPendingApprovals();
+        updateDashboardStatsUI();
+      }
+      
+      // Refresh workflow display if viewing workflow automation page
+      if (paneId === 'feat_admin_workflow_automation') {
+        setTimeout(() => refreshWorkflowDisplay(), 100);
+      }
+      
+      updateTopBannerTitle(pageTitle);
+    }
+
+renderFeaturePane:
+Not found

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "supabase-synapse": {
+      "command": "node",
+      "args": ["c:\\Users\\Admin\\Downloads\\SynapseAI_Project_Documentation\\supabase\\mcp-server.js"],
+      "env": {
+        "SUPABASE_URL": "https://xhjektrtwvizvcqjvbux.supabase.co",
+        "SUPABASE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoamVrdHJ0d3ZpenZjcWp2YnV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUxNjE1NjUsImV4cCI6MjEwMDczNzU2NX0.dqO0KR7wLhpk2Dm9yLfVo3PKJyGmx0P0Cvs9hTr5GrQ"
+      },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
