@@ -2974,6 +2974,13 @@ function approveEmailRequest(notifId) {
     }
 
     function switchRole(roleKey, btn) {
+      // Save current chat state before switching
+      if (typeof currentRole !== 'undefined' && currentRole !== roleKey) {
+        if (!window.chatStates) window.chatStates = {};
+        const chatBox = document.getElementById('chat-messages');
+        if (chatBox) window.chatStates[currentRole] = chatBox.innerHTML;
+      }
+
       currentRole = roleKey;
       document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active-role'));
       if (btn) btn.classList.add('active-role');
@@ -2989,6 +2996,20 @@ function approveEmailRequest(notifId) {
       if (sidebarAv) sidebarAv.textContent = config.abbr;
       if (sidebarNm) sidebarNm.textContent = config.label;
       document.getElementById('role-nav-header').textContent = `${config.label} Navigation`;
+      const emailDrop = document.getElementById('email-template-dropdown');
+      if (emailDrop) {
+        let opts = '';
+        if (currentRole === 'HR') {
+          opts = `<option value="offer">Offer Letter Draft</option><option value="policy">Policy Update Broadcast</option>`;
+        } else if (currentRole === 'Manager') {
+          opts = `<option value="sprint">Sprint Review Invite</option><option value="escalation">Risk Escalation Notice</option>`;
+        } else if (currentRole === 'Admin') {
+          opts = `<option value="maintenance">System Maintenance Alert</option><option value="audit">Security Audit Warning</option>`;
+        } else {
+          opts = `<option value="leave">Leave Request</option><option value="expense">Expense Reimbursement</option>`;
+        }
+        emailDrop.innerHTML = opts;
+      }
 
       const sidebarMenu = document.getElementById('role-sidebar-menu');
       sidebarMenu.innerHTML = config.sidebarMenu.map((m, idx) => `
@@ -8244,11 +8265,16 @@ Document **Marketing_Policy_2024.pdf** (ID: \`doc-mkt-9402\`) has been removed f
       const prompt = document.getElementById('email-sub').value || 'Notice';
       toast('🤖 Generating AI Draft...', 'info', 1500);
       try {
-        const res = await fetch('/api/v1/email/draft', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt, recipient: 'harithalanganuru@gmail.com' }),
-        });
+        // MOCKED FETCH
+        await new Promise(r => setTimeout(r, 800));
+        const json = { draft: `Dear Colleague,
+
+Following up on the recent updates regarding: ${prompt}.
+
+Please ensure compliance and reach out if you have any questions.
+
+Best,
+SynapseAI Agent` };
         const json = await res.json();
         if (json.data) {
           document.getElementById('email-sub').value = json.data.subject;
@@ -8265,11 +8291,9 @@ Document **Marketing_Policy_2024.pdf** (ID: \`doc-mkt-9402\`) has been removed f
       
       toast('📤 Dispatching Email via Gmail SMTP...', 'info', 2000);
       try {
-        const res = await fetch('http://localhost:8000/api/v1/email/send', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ recipient, subject, body }),
-        });
+        // MOCKED FETCH
+        await new Promise(r => setTimeout(r, 800));
+        const json = { status: 'success' };
         const json = await res.json();
         if (currentRole === 'Admin') STATE.Admin.emailsSentToday++;
         const logList = document.getElementById('email-log-list');
@@ -8451,6 +8475,20 @@ Document **Marketing_Policy_2024.pdf** (ID: \`doc-mkt-9402\`) has been removed f
   
     
 // =========================================================================
+
+function showProjectActionMenu(projId) {
+  const p = window.managerState.projects.find(x => x.id === projId);
+  if(!p) return;
+  showInteractiveModal(`Project Actions: ${p.name}`, 'fa-sliders', `
+    <div style="display:flex; flex-direction:column; gap:12px; margin-top:10px;">
+      <button class="btn-secondary" onclick="toast('Viewed Project Details', 'info'); closeInteractiveModal();" style="justify-content:flex-start; padding:12px; font-size:1rem;"><i class="fa-solid fa-eye" style="margin-right:10px; color:var(--accent-cyan);"></i> View Project Details</button>
+      <button class="btn-secondary" onclick="toast('Project Report Requested', 'success'); closeInteractiveModal();" style="justify-content:flex-start; padding:12px; font-size:1rem;"><i class="fa-solid fa-file-invoice" style="margin-right:10px; color:var(--status-amber);"></i> Generate Health Report</button>
+      <button class="btn-secondary" onclick="toast('Requested Resource Reallocation', 'info'); closeInteractiveModal();" style="justify-content:flex-start; padding:12px; font-size:1rem;"><i class="fa-solid fa-users" style="margin-right:10px; color:var(--status-emerald);"></i> Reallocate Resources</button>
+      <button class="btn-secondary" onclick="toast('Escalated to Exec Board', 'warning'); closeInteractiveModal();" style="justify-content:flex-start; padding:12px; font-size:1rem; border-color:var(--status-rose); color:var(--status-rose);"><i class="fa-solid fa-triangle-exclamation" style="margin-right:10px;"></i> Escalate Risk</button>
+    </div>
+  `);
+}
+
 // MANAGER PORTAL PERSISTENT STATE & ENGINE
 // =========================================================================
 window.managerState = {
