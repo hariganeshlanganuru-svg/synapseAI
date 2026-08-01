@@ -10595,9 +10595,7 @@ function openKnowledgeDocPDF(docId) {
     document.getElementById('pdf-modal-title').innerHTML = '<i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> ' + title;
     document.getElementById('pdf-modal-doc-title').innerText = title.replace('.pdf', '');
     document.getElementById('pdf-modal-doc-page').innerText = (page.replace('Page ', '') || '1');
-    document.getElementById('pdf-modal-doc-content').innerText = snippet + "
-
-(End of excerpt preview. Full PDF rendering is simulated in this prototype.)";
+    document.getElementById('pdf-modal-doc-content').innerText = snippet + "\\n\\n(End of excerpt preview. Full PDF rendering is simulated in this prototype.)";
     modal.style.display = 'flex';
   }
 }
