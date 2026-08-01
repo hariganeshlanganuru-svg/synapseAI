@@ -8881,7 +8881,33 @@ function downloadFile(btn, filename) {
             <h1>🏢 ${reportTitle}</h1>
             <div class="subtitle">${template.subtitle} • Generated ${new Date().toLocaleString()}</div>
             ${sectionsHtml}
-          </body>
+          
+  <!-- PDF Viewer Modal -->
+  <div id="pdf-viewer-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:99999; align-items:center; justify-content:center;">
+    <div class="glass-card" style="width:90%; max-width:1000px; height:85vh; display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden;">
+      <div style="padding:16px 20px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h3 id="pdf-modal-title" style="margin:0; font-family:'Outfit'; color:var(--text-main);"><i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> Document Viewer</h3>
+          <span style="font-size:0.8rem; color:var(--text-muted);">Confidential & Proprietary</span>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <button class="btn-secondary" onclick="document.getElementById('pdf-viewer-modal').style.display='none'" style="padding:6px 12px; font-size:0.8rem;">Close Viewer</button>
+        </div>
+      </div>
+      <div style="flex:1; background:#fff; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+        <div style="position:absolute; top:40px; text-align:center; color:#333; font-family:serif;">
+          <h1 id="pdf-modal-doc-title" style="margin-bottom:10px; font-size:24px;">Document Title</h1>
+          <hr style="border:0; border-top:2px solid #ccc; width:200px; margin:0 auto 40px auto;"/>
+          <p id="pdf-modal-doc-content" style="max-width:700px; margin:0 auto; line-height:1.8; text-align:justify; font-size:16px;">
+            This is a simulated PDF document. In a production environment, this would render an actual PDF file using PDF.js or a native browser viewer.
+          </p>
+        </div>
+        <div style="position:absolute; bottom:20px; color:#999; font-size:12px; font-family:sans-serif;">Page <span id="pdf-modal-doc-page">1</span></div>
+      </div>
+    </div>
+  </div>
+
+</body>
           </html>
         `);
         reportWindow.document.close();
@@ -9857,7 +9883,33 @@ function downloadCandidateResume(fileName) {
             ${rData.skills.map(s => `<span class="skill-pill">${s}</span>`).join('')}
           </div>
         </div>
-      </body>
+      
+  <!-- PDF Viewer Modal -->
+  <div id="pdf-viewer-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:99999; align-items:center; justify-content:center;">
+    <div class="glass-card" style="width:90%; max-width:1000px; height:85vh; display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden;">
+      <div style="padding:16px 20px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h3 id="pdf-modal-title" style="margin:0; font-family:'Outfit'; color:var(--text-main);"><i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> Document Viewer</h3>
+          <span style="font-size:0.8rem; color:var(--text-muted);">Confidential & Proprietary</span>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <button class="btn-secondary" onclick="document.getElementById('pdf-viewer-modal').style.display='none'" style="padding:6px 12px; font-size:0.8rem;">Close Viewer</button>
+        </div>
+      </div>
+      <div style="flex:1; background:#fff; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+        <div style="position:absolute; top:40px; text-align:center; color:#333; font-family:serif;">
+          <h1 id="pdf-modal-doc-title" style="margin-bottom:10px; font-size:24px;">Document Title</h1>
+          <hr style="border:0; border-top:2px solid #ccc; width:200px; margin:0 auto 40px auto;"/>
+          <p id="pdf-modal-doc-content" style="max-width:700px; margin:0 auto; line-height:1.8; text-align:justify; font-size:16px;">
+            This is a simulated PDF document. In a production environment, this would render an actual PDF file using PDF.js or a native browser viewer.
+          </p>
+        </div>
+        <div style="position:absolute; bottom:20px; color:#999; font-size:12px; font-family:sans-serif;">Page <span id="pdf-modal-doc-page">1</span></div>
+      </div>
+    </div>
+  </div>
+
+</body>
       </html>
     `);
     win.document.close();
@@ -10160,7 +10212,33 @@ function downloadPolicyPDF(polId) {
           <div class="meta">Department: <b>${p.dept}</b> | Version: <b>${p.version}</b> | Last Revised: <b>${p.updated}</b> | Status: <b style="color:#34d399;">${p.status}</b></div>
           <div class="content">${p.content}</div>
         </div>
-      </body>
+      
+  <!-- PDF Viewer Modal -->
+  <div id="pdf-viewer-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:99999; align-items:center; justify-content:center;">
+    <div class="glass-card" style="width:90%; max-width:1000px; height:85vh; display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden;">
+      <div style="padding:16px 20px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h3 id="pdf-modal-title" style="margin:0; font-family:'Outfit'; color:var(--text-main);"><i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> Document Viewer</h3>
+          <span style="font-size:0.8rem; color:var(--text-muted);">Confidential & Proprietary</span>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <button class="btn-secondary" onclick="document.getElementById('pdf-viewer-modal').style.display='none'" style="padding:6px 12px; font-size:0.8rem;">Close Viewer</button>
+        </div>
+      </div>
+      <div style="flex:1; background:#fff; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+        <div style="position:absolute; top:40px; text-align:center; color:#333; font-family:serif;">
+          <h1 id="pdf-modal-doc-title" style="margin-bottom:10px; font-size:24px;">Document Title</h1>
+          <hr style="border:0; border-top:2px solid #ccc; width:200px; margin:0 auto 40px auto;"/>
+          <p id="pdf-modal-doc-content" style="max-width:700px; margin:0 auto; line-height:1.8; text-align:justify; font-size:16px;">
+            This is a simulated PDF document. In a production environment, this would render an actual PDF file using PDF.js or a native browser viewer.
+          </p>
+        </div>
+        <div style="position:absolute; bottom:20px; color:#999; font-size:12px; font-family:sans-serif;">Page <span id="pdf-modal-doc-page">1</span></div>
+      </div>
+    </div>
+  </div>
+
+</body>
       </html>
     `);
     win.document.close();
@@ -10505,7 +10583,23 @@ function openKnowledgeDocPDF(docId) {
   const arr = getActiveKnowledgeDocsArray() || [];
   const doc = arr.find(d => d.id === docId) || arr[0];
   const title = doc ? doc.title : docId;
-  toast('Opened printable PDF report for ' + title, 'success');
+  const page = doc ? doc.page : '1';
+  const snippet = doc && doc.fullText ? doc.fullText : (doc && doc.snippet ? doc.snippet : 'No preview available.');
+  
+  // Show toast
+  toast('Opening PDF: ' + title, 'success');
+  
+  // Open modal
+  const modal = document.getElementById('pdf-viewer-modal');
+  if (modal) {
+    document.getElementById('pdf-modal-title').innerHTML = '<i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> ' + title;
+    document.getElementById('pdf-modal-doc-title').innerText = title.replace('.pdf', '');
+    document.getElementById('pdf-modal-doc-page').innerText = (page.replace('Page ', '') || '1');
+    document.getElementById('pdf-modal-doc-content').innerText = snippet + "
+
+(End of excerpt preview. Full PDF rendering is simulated in this prototype.)";
+    modal.style.display = 'flex';
+  }
 }
 
 function copyDocCitation(docId) {
@@ -10696,7 +10790,33 @@ function downloadPersonalDocPDF(docId) {
           <h3>Document Summary & Excerpt</h3>
           <div class="content">${d.summary}</div>
         </div>
-      </body>
+      
+  <!-- PDF Viewer Modal -->
+  <div id="pdf-viewer-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:99999; align-items:center; justify-content:center;">
+    <div class="glass-card" style="width:90%; max-width:1000px; height:85vh; display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden;">
+      <div style="padding:16px 20px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h3 id="pdf-modal-title" style="margin:0; font-family:'Outfit'; color:var(--text-main);"><i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> Document Viewer</h3>
+          <span style="font-size:0.8rem; color:var(--text-muted);">Confidential & Proprietary</span>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <button class="btn-secondary" onclick="document.getElementById('pdf-viewer-modal').style.display='none'" style="padding:6px 12px; font-size:0.8rem;">Close Viewer</button>
+        </div>
+      </div>
+      <div style="flex:1; background:#fff; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+        <div style="position:absolute; top:40px; text-align:center; color:#333; font-family:serif;">
+          <h1 id="pdf-modal-doc-title" style="margin-bottom:10px; font-size:24px;">Document Title</h1>
+          <hr style="border:0; border-top:2px solid #ccc; width:200px; margin:0 auto 40px auto;"/>
+          <p id="pdf-modal-doc-content" style="max-width:700px; margin:0 auto; line-height:1.8; text-align:justify; font-size:16px;">
+            This is a simulated PDF document. In a production environment, this would render an actual PDF file using PDF.js or a native browser viewer.
+          </p>
+        </div>
+        <div style="position:absolute; bottom:20px; color:#999; font-size:12px; font-family:sans-serif;">Page <span id="pdf-modal-doc-page">1</span></div>
+      </div>
+    </div>
+  </div>
+
+</body>
       </html>
     `);
     win.document.close();
@@ -10859,7 +10979,33 @@ function downloadSkillCertificate(fileName) {
           <h2 style="color:#f8fafc; margin:16px 0;">${cleanTitle}</h2>
           <div style="margin-top:30px; font-size:0.85rem; color:#94a3b8;">Issued by SynapseAI Learning & Development • Verified Token: SYN-2026-CERT-${Math.floor(Math.random()*90000+10000)}</div>
         </div>
-      </body>
+      
+  <!-- PDF Viewer Modal -->
+  <div id="pdf-viewer-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:99999; align-items:center; justify-content:center;">
+    <div class="glass-card" style="width:90%; max-width:1000px; height:85vh; display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden;">
+      <div style="padding:16px 20px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h3 id="pdf-modal-title" style="margin:0; font-family:'Outfit'; color:var(--text-main);"><i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> Document Viewer</h3>
+          <span style="font-size:0.8rem; color:var(--text-muted);">Confidential & Proprietary</span>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <button class="btn-secondary" onclick="document.getElementById('pdf-viewer-modal').style.display='none'" style="padding:6px 12px; font-size:0.8rem;">Close Viewer</button>
+        </div>
+      </div>
+      <div style="flex:1; background:#fff; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+        <div style="position:absolute; top:40px; text-align:center; color:#333; font-family:serif;">
+          <h1 id="pdf-modal-doc-title" style="margin-bottom:10px; font-size:24px;">Document Title</h1>
+          <hr style="border:0; border-top:2px solid #ccc; width:200px; margin:0 auto 40px auto;"/>
+          <p id="pdf-modal-doc-content" style="max-width:700px; margin:0 auto; line-height:1.8; text-align:justify; font-size:16px;">
+            This is a simulated PDF document. In a production environment, this would render an actual PDF file using PDF.js or a native browser viewer.
+          </p>
+        </div>
+        <div style="position:absolute; bottom:20px; color:#999; font-size:12px; font-family:sans-serif;">Page <span id="pdf-modal-doc-page">1</span></div>
+      </div>
+    </div>
+  </div>
+
+</body>
       </html>
     `);
     win.document.close();
@@ -11163,7 +11309,33 @@ function downloadAnnouncementPDF(annId) {
           <div class="meta">Department: <b>${a.dept}</b> | Published: <b>${a.date}</b> | Priority: <b style="color:#ef4444;">${a.priority}</b></div>
           <div class="content">${a.fullText}</div>
         </div>
-      </body>
+      
+  <!-- PDF Viewer Modal -->
+  <div id="pdf-viewer-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:99999; align-items:center; justify-content:center;">
+    <div class="glass-card" style="width:90%; max-width:1000px; height:85vh; display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden;">
+      <div style="padding:16px 20px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h3 id="pdf-modal-title" style="margin:0; font-family:'Outfit'; color:var(--text-main);"><i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> Document Viewer</h3>
+          <span style="font-size:0.8rem; color:var(--text-muted);">Confidential & Proprietary</span>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <button class="btn-secondary" onclick="document.getElementById('pdf-viewer-modal').style.display='none'" style="padding:6px 12px; font-size:0.8rem;">Close Viewer</button>
+        </div>
+      </div>
+      <div style="flex:1; background:#fff; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+        <div style="position:absolute; top:40px; text-align:center; color:#333; font-family:serif;">
+          <h1 id="pdf-modal-doc-title" style="margin-bottom:10px; font-size:24px;">Document Title</h1>
+          <hr style="border:0; border-top:2px solid #ccc; width:200px; margin:0 auto 40px auto;"/>
+          <p id="pdf-modal-doc-content" style="max-width:700px; margin:0 auto; line-height:1.8; text-align:justify; font-size:16px;">
+            This is a simulated PDF document. In a production environment, this would render an actual PDF file using PDF.js or a native browser viewer.
+          </p>
+        </div>
+        <div style="position:absolute; bottom:20px; color:#999; font-size:12px; font-family:sans-serif;">Page <span id="pdf-modal-doc-page">1</span></div>
+      </div>
+    </div>
+  </div>
+
+</body>
       </html>
     `);
     win.document.close();
@@ -12290,5 +12462,31 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+
+  <!-- PDF Viewer Modal -->
+  <div id="pdf-viewer-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:99999; align-items:center; justify-content:center;">
+    <div class="glass-card" style="width:90%; max-width:1000px; height:85vh; display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden;">
+      <div style="padding:16px 20px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h3 id="pdf-modal-title" style="margin:0; font-family:'Outfit'; color:var(--text-main);"><i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> Document Viewer</h3>
+          <span style="font-size:0.8rem; color:var(--text-muted);">Confidential & Proprietary</span>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <button class="btn-secondary" onclick="document.getElementById('pdf-viewer-modal').style.display='none'" style="padding:6px 12px; font-size:0.8rem;">Close Viewer</button>
+        </div>
+      </div>
+      <div style="flex:1; background:#fff; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+        <div style="position:absolute; top:40px; text-align:center; color:#333; font-family:serif;">
+          <h1 id="pdf-modal-doc-title" style="margin-bottom:10px; font-size:24px;">Document Title</h1>
+          <hr style="border:0; border-top:2px solid #ccc; width:200px; margin:0 auto 40px auto;"/>
+          <p id="pdf-modal-doc-content" style="max-width:700px; margin:0 auto; line-height:1.8; text-align:justify; font-size:16px;">
+            This is a simulated PDF document. In a production environment, this would render an actual PDF file using PDF.js or a native browser viewer.
+          </p>
+        </div>
+        <div style="position:absolute; bottom:20px; color:#999; font-size:12px; font-family:sans-serif;">Page <span id="pdf-modal-doc-page">1</span></div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
