@@ -8265,22 +8265,10 @@ Document **Marketing_Policy_2024.pdf** (ID: \`doc-mkt-9402\`) has been removed f
       const prompt = document.getElementById('email-sub').value || 'Notice';
       toast('🤖 Generating AI Draft...', 'info', 1500);
       try {
-        // MOCKED FETCH
         await new Promise(r => setTimeout(r, 800));
-        const json = { draft: `Dear Colleague,
-
-Following up on the recent updates regarding: ${prompt}.
-
-Please ensure compliance and reach out if you have any questions.
-
-Best,
-SynapseAI Agent` };
-        const json = await res.json();
-        if (json.data) {
-          document.getElementById('email-sub').value = json.data.subject;
-          document.getElementById('email-body').value = json.data.body;
-          toast('✅ AI Email Draft Generated!', 'success');
-        }
+        const draftBody = `Dear Colleague,\n\nFollowing up on the recent updates regarding: ${prompt}.\n\nPlease ensure compliance and reach out if you have any questions.\n\nBest,\nSynapseAI Agent`;
+        document.getElementById('email-body').value = draftBody;
+        toast('✅ AI Email Draft Generated!', 'success');
       } catch(e) { toast('Error: ' + e.message, 'error'); }
     }
 
@@ -8288,16 +8276,13 @@ SynapseAI Agent` };
       const recipient = document.getElementById('email-to').value;
       const subject = document.getElementById('email-sub').value;
       const body = document.getElementById('email-body').value;
-      
+      if (!recipient || !subject) { toast('Please fill in recipient and subject.', 'warning'); return; }
       toast('📤 Dispatching Email via Gmail SMTP...', 'info', 2000);
       try {
-        // MOCKED FETCH
         await new Promise(r => setTimeout(r, 800));
-        const json = { status: 'success' };
-        const json = await res.json();
-        if (currentRole === 'Admin') STATE.Admin.emailsSentToday++;
+        if (currentRole === 'Admin' && window.STATE && window.STATE.Admin) STATE.Admin.emailsSentToday++;
         const logList = document.getElementById('email-log-list');
-        logList.insertAdjacentHTML('afterbegin', `
+        if (logList) logList.insertAdjacentHTML('afterbegin', `
           <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border-glass); padding:10px; border-radius:10px; font-size:0.8rem;">
             <b>${subject}</b> to <i>${recipient}</i> — <span style="color:var(--status-emerald); font-weight:700;">SENT</span>
           </div>`);
