@@ -9841,10 +9841,10 @@ function downloadCandidateResume(fileName) {
             <h3 style="color: #0ea5e9; margin-bottom: 10px; font-size: 18px;">Experience</h3>
             ${rData.experience.map(e => `
               <div style="margin-bottom: 15px;">
-                <div style="font-weight: bold; color: #222;">${e.title} at ${e.company}</div>
+                <div style="font-weight: bold; color: #222;">${e.role}</div>
                 <div style="font-size: 13px; color: #666; margin-bottom: 5px;">${e.period}</div>
                 <ul style="margin: 0; padding-left: 20px; color: #333; line-height: 1.5;">
-                  ${e.achievements.map(a => `<li>${a}</li>`).join('')}
+                  <li>${e.desc}</li>
                 </ul>
               </div>
             `).join('')}
