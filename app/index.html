@@ -66,6 +66,12 @@
     .blob-2 { width: 500px; height: 500px; background: #06B6D4; bottom: -100px; right: -100px; animation-delay: -5s; }
     .blob-3 { width: 450px; height: 450px; background: #EC4899; top: 40%; left: 40%; animation-delay: -10s; }
 
+    /* Custom scrollbars */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 3px; opacity: 0.6; }
+    ::-webkit-scrollbar-thumb:hover { opacity: 1; }
+
     @keyframes float-aurora {
       0% { transform: translate(0, 0) scale(1); }
       50% { transform: translate(50px, 40px) scale(1.1); }
@@ -83,6 +89,22 @@
       border: 1px solid var(--border-glass); border-radius: var(--radius);
       display: flex; flex-direction: column; padding: 20px 16px; gap: 16px;
       overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    /* Portal accent top bar */
+    .sidebar .brand-box {
+      border-top: 3px solid transparent;
+      border-image: var(--accent-gradient) 1;
+      padding-top: 16px;
+      position: relative;
+    }
+    .sidebar .brand-box::before {
+      content: "";
+      position: absolute;
+      top: -20px; left: -16px; right: -16px;
+      height: 3px;
+      background: var(--accent-gradient);
+      border-radius: 24px 24px 0 0;
     }
 
     .brand-box {
@@ -120,6 +142,7 @@
 
     .nav-item.active {
       background: var(--accent-gradient); color: white; box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .role-switcher { display:flex; flex-direction:column; gap:6px; }
@@ -210,6 +233,13 @@
       height: 72px; min-height: 72px; background: var(--bg-surface); backdrop-filter: blur(24px);
       border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 0 28px;
       display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      position: relative; overflow: hidden; transition: border-color 0.4s ease;
+    }
+    .top-header::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent-gradient); opacity: 0.7;
     }
 
     .title-banner { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800; display: flex; align-items: center; gap: 12px; }
@@ -225,7 +255,8 @@
       background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border-glass);
       border-radius: var(--radius); padding: 24px; transition: all 0.3s ease; box-shadow: 0 15px 35px rgba(0,0,0,0.25);
     }
-    .glass-card:hover { border-color: var(--border-glow); }
+    .glass-card:hover { border-color: var(--border-glow); box-shadow: 0 20px 50px rgba(0,0,0,0.35), 0 0 0 1px var(--border-glow); transform: translateY(-2px); }
+    .glass-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
     /* Stats Grid */
     .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
@@ -2987,8 +3018,53 @@ function approveEmailRequest(notifId) {
       
       const config = ROLE_CONFIG[currentRole];
       
-      document.documentElement.style.setProperty('--accent-primary', config.accent);
-      document.documentElement.style.setProperty('--accent-gradient', `linear-gradient(135deg, ${config.accent} 0%, #8B5CF6 50%, #06B6D4 100%)`);
+      // Per-portal unique visual identity themes
+      const PORTAL_THEMES = {
+        Employee: {
+          primary: '#7C3AED',
+          gradient: 'linear-gradient(135deg, #7C3AED 0%, #6366F1 50%, #06B6D4 100%)',
+          border: 'rgba(124, 58, 237, 0.35)',
+          glow: '0 0 40px rgba(124, 58, 237, 0.12)',
+          blob1: '#7C3AED', blob2: '#06B6D4'
+        },
+        HR: {
+          primary: '#059669',
+          gradient: 'linear-gradient(135deg, #059669 0%, #0D9488 50%, #06B6D4 100%)',
+          border: 'rgba(5, 150, 105, 0.35)',
+          glow: '0 0 40px rgba(5, 150, 105, 0.12)',
+          blob1: '#059669', blob2: '#0D9488'
+        },
+        Manager: {
+          primary: '#D97706',
+          gradient: 'linear-gradient(135deg, #D97706 0%, #EA580C 50%, #EF4444 100%)',
+          border: 'rgba(217, 119, 6, 0.35)',
+          glow: '0 0 40px rgba(217, 119, 6, 0.12)',
+          blob1: '#D97706', blob2: '#EA580C'
+        },
+        Admin: {
+          primary: '#E11D48',
+          gradient: 'linear-gradient(135deg, #E11D48 0%, #9333EA 50%, #7C3AED 100%)',
+          border: 'rgba(225, 29, 72, 0.35)',
+          glow: '0 0 40px rgba(225, 29, 72, 0.12)',
+          blob1: '#E11D48', blob2: '#9333EA'
+        }
+      };
+      const portalTheme = PORTAL_THEMES[roleKey] || PORTAL_THEMES.Employee;
+      document.documentElement.style.setProperty('--accent-primary', portalTheme.primary);
+      document.documentElement.style.setProperty('--accent-gradient', portalTheme.gradient);
+      document.documentElement.style.setProperty('--border-glow', portalTheme.border);
+      // Apply sidebar unique styling
+      const sidebarEl = document.querySelector('.sidebar');
+      if (sidebarEl) {
+        sidebarEl.style.borderColor = portalTheme.border;
+        sidebarEl.style.boxShadow = '0 20px 50px rgba(0,0,0,0.5), ' + portalTheme.glow;
+      }
+      const topHeaderEl = document.querySelector('.top-header');
+      if (topHeaderEl) topHeaderEl.style.borderColor = portalTheme.border;
+      // Animate aurora blobs
+      const blobs = document.querySelectorAll('.aurora-blob');
+      if (blobs[0]) blobs[0].style.background = portalTheme.blob1;
+      if (blobs[1]) blobs[1].style.background = portalTheme.blob2;
       
       // Update sidebar avatar/name (new IDs)
       const sidebarAv = document.getElementById('sidebar-avatar') || document.getElementById('role-avatar');
@@ -3051,7 +3127,18 @@ function approveEmailRequest(notifId) {
         adminUploadBox.style.display = (currentRole === 'Admin' || currentRole === 'HR') ? 'block' : 'none';
       }
 
-      renderChatbotWelcomeScreen();
+      // Per-role chatbot isolation
+      const chatBox2 = document.getElementById('chat-messages');
+      if (chatBox2) {
+        if (window.chatStates && window.chatStates[currentRole]) {
+          chatBox2.innerHTML = window.chatStates[currentRole];
+        } else {
+          chatBox2.innerHTML = '<div id="chat-welcome-screen"></div>';
+          renderChatbotWelcomeScreen();
+        }
+      } else {
+        renderChatbotWelcomeScreen();
+      }
       updateDashboardStatsUI();
       if (currentRole === 'Admin') {
         renderAdminPendingApprovals();
@@ -9736,42 +9823,7 @@ function submitUploadResume() {
   renderRoleFeatureView('feat_candidates');
 }
 
-function downloadCandidateResume(fileName) {
-  const content = `
-================================================================================
-                    CANDIDATE RESUME & AI MATCH ANALYSIS
-================================================================================
-FILE NAME:         ${fileName}
-PARSED DATE:       ${new Date().toLocaleString()}
-SECURITY CLASS:    CONFIDENTIAL - HR RECRUITMENT AUDITED
 
---------------------------------------------------------------------------------
-1. CANDIDATE PROFILE SUMMARY
---------------------------------------------------------------------------------
-Name:              ${fileName.replace(/_/g, ' ').replace('.pdf', '')}
-Status:            VERIFIED & SHORTLISTED BY AI RESUME ENGINE
-Match Score:       96.8% Match with Job Description Requirements
-
---------------------------------------------------------------------------------
-2. AI EXTRACTED SKILL ALIGNMENT
---------------------------------------------------------------------------------
-- Core Technical Skills:  React, TypeScript, Node.js, Python, AWS, PostgreSQL
-- Architecture Rating:    98% Advanced Enterprise Systems
-- Team Leadership:        Experienced in leading cross-functional teams
-
-================================================================================
-`;
-  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  toast('Downloaded candidate resume: ' + fileName, 'success');
-}
 
 function downloadCandidateResume(fileName) {
   const RESUME_DATABASE = {
@@ -9851,9 +9903,9 @@ function downloadCandidateResume(fileName) {
         <div style="max-width: 800px; margin: 0 auto; border: 1px solid #ccc; padding: 30px; border-radius: 8px;">
           <div style="border-bottom: 2px solid #0ea5e9; padding-bottom: 15px; margin-bottom: 20px;">
               <h1 style="margin: 0; color: #000; font-size: 28px;">${rData.name}</h1>
-              <div style="color: #555; font-size: 16px; margin-top: 5px;">${rData.role}</div>
+              <div style="color: #555; font-size: 16px; margin-top: 5px;">${rData.title}</div>
               <div style="color: #666; font-size: 13px; margin-top: 10px;">
-                ?? ${rData.contact.email} &nbsp;|&nbsp; ?? ${rData.contact.phone} &nbsp;|&nbsp; ?? ${rData.contact.location}
+                ?? ${rData.email} &nbsp;|&nbsp; ?? ${rData.phone} &nbsp;|&nbsp; ?? ${San Francisco, CA}
               </div>
           </div>
           <div style="margin-bottom: 20px;">
