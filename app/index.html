@@ -10477,15 +10477,42 @@ function filterKnowledgeByChip(category) {
   updateKnowledgeSearchUI();
 }
 
+function getActiveKnowledgeDocsArray() {
+  const role = (window.authState && window.authState.currentUser && window.authState.currentUser.role) ? window.authState.currentUser.role : (window.currentRole || 'Admin');
+  if (role === 'Employee' && window.employeeState && window.employeeState.knowledgeDocs) {
+    return window.employeeState.knowledgeDocs;
+  }
+  if (window.STATE && window.STATE.HR && window.STATE.HR.knowledgeDocs) {
+    return window.STATE.HR.knowledgeDocs;
+  }
+  return window.employeeState ? window.employeeState.knowledgeDocs : [];
+}
+
 function selectKnowledgeDoc(docId) {
-  if (!window.employeeState) window.employeeState = {};
-  window.employeeState.selectedDocId = docId;
-  updateKnowledgeSearchUI();
+  const role = (window.authState && window.authState.currentUser && window.authState.currentUser.role) ? window.authState.currentUser.role : (window.currentRole || 'Admin');
+  if (role === 'Employee') {
+    if (!window.employeeState) window.employeeState = {};
+    window.employeeState.selectedDocId = docId;
+    if (typeof updateKnowledgeSearchUI === 'function') updateKnowledgeSearchUI();
+  } else {
+    if (!window.STATE.HR) window.STATE.HR = {};
+    window.STATE.HR.selectedDocId = docId;
+    if (typeof renderRoleFeatureView === 'function') renderRoleFeatureView('feat_admin_knowledge_center');
+  }
+}
+
+function openKnowledgeDocPDF(docId) {
+  const arr = getActiveKnowledgeDocsArray() || [];
+  const doc = arr.find(d => d.id === docId) || arr[0];
+  const title = doc ? doc.title : docId;
+  toast('Opened printable PDF report for ' + title, 'success');
 }
 
 function copyDocCitation(docId) {
-  const doc = window.employeeState.knowledgeDocs.find(d => d.id === docId) || window.employeeState.knowledgeDocs[0];
-  const citation = `[Citation: ${doc.title}, ${doc.page} — "${doc.snippet}"]`;
+  const arr = getActiveKnowledgeDocsArray() || [];
+  const doc = arr.find(d => d.id === docId) || arr[0];
+  if (!doc) return;
+  const citation = `[Citation: ${doc.title}, ${doc.page} - "${doc.snippet}"]`;
   navigator.clipboard.writeText(citation).then(() => {
     toast('Citation copied to clipboard!', 'success');
   }).catch(() => {
