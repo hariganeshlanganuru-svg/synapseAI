@@ -8551,14 +8551,194 @@ Document **Marketing_Policy_2024.pdf** (ID: \`doc-mkt-9402\`) has been removed f
 function showProjectActionMenu(projId) {
   const p = window.managerState.projects.find(x => x.id === projId);
   if(!p) return;
+  const hc = p.health==='Healthy' ? 'var(--status-emerald)' : p.health==='At Risk' ? 'var(--status-amber)' : 'var(--status-rose)';
   showInteractiveModal(`Project Actions: ${p.name}`, 'fa-sliders', `
     <div style="display:flex; flex-direction:column; gap:12px; margin-top:10px;">
-      <button class="btn-secondary" onclick="toast('Viewed Project Details', 'info'); closeInteractiveModal();" style="justify-content:flex-start; padding:12px; font-size:1rem;"><i class="fa-solid fa-eye" style="margin-right:10px; color:var(--accent-cyan);"></i> View Project Details</button>
-      <button class="btn-secondary" onclick="toast('Project Report Requested', 'success'); closeInteractiveModal();" style="justify-content:flex-start; padding:12px; font-size:1rem;"><i class="fa-solid fa-file-invoice" style="margin-right:10px; color:var(--status-amber);"></i> Generate Health Report</button>
-      <button class="btn-secondary" onclick="toast('Requested Resource Reallocation', 'info'); closeInteractiveModal();" style="justify-content:flex-start; padding:12px; font-size:1rem;"><i class="fa-solid fa-users" style="margin-right:10px; color:var(--status-emerald);"></i> Reallocate Resources</button>
-      <button class="btn-secondary" onclick="toast('Escalated to Exec Board', 'warning'); closeInteractiveModal();" style="justify-content:flex-start; padding:12px; font-size:1rem; border-color:var(--status-rose); color:var(--status-rose);"><i class="fa-solid fa-triangle-exclamation" style="margin-right:10px;"></i> Escalate Risk</button>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border-glass); border-radius:12px; padding:14px; display:flex; align-items:center; justify-content:space-between;">
+        <div style="text-align:center;"><div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">ID</div><div style="font-weight:700;">${p.id}</div></div>
+        <div style="text-align:center;"><div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">PROGRESS</div><div style="font-weight:800; color:var(--accent-cyan);">${p.progress}%</div></div>
+        <div style="text-align:center;"><div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">HEALTH</div><div style="font-weight:700; color:${hc};">${p.health}</div></div>
+        <div style="text-align:center;"><div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">LEAD</div><div style="font-weight:600;">${p.lead}</div></div>
+      </div>
+      <button class="btn-secondary" onclick="viewProjectDetails('${p.id}')" style="justify-content:flex-start; padding:14px 18px; font-size:0.9rem; border-radius:12px; display:flex; align-items:flex-start; gap:12px; text-align:left;">
+        <i class="fa-solid fa-eye" style="color:var(--accent-cyan); width:18px; margin-top:2px; flex-shrink:0;"></i>
+        <span><b style="color:white;">View Project Details</b><br><span style="font-size:0.75rem; color:var(--text-muted); font-weight:400;">Timeline, milestones & team assignments</span></span>
+      </button>
+      <button class="btn-secondary" onclick="generateProjectHealthReport('${p.id}')" style="justify-content:flex-start; padding:14px 18px; font-size:0.9rem; border-radius:12px; display:flex; align-items:flex-start; gap:12px; text-align:left;">
+        <i class="fa-solid fa-file-chart-column" style="color:var(--status-amber); width:18px; margin-top:2px; flex-shrink:0;"></i>
+        <span><b style="color:white;">Generate Health Report</b><br><span style="font-size:0.75rem; color:var(--text-muted); font-weight:400;">Download PDF with metrics & risk analysis</span></span>
+      </button>
+      <button class="btn-secondary" onclick="showReallocateResources('${p.id}')" style="justify-content:flex-start; padding:14px 18px; font-size:0.9rem; border-radius:12px; display:flex; align-items:flex-start; gap:12px; text-align:left;">
+        <i class="fa-solid fa-people-arrows" style="color:var(--status-emerald); width:18px; margin-top:2px; flex-shrink:0;"></i>
+        <span><b style="color:white;">Reallocate Resources</b><br><span style="font-size:0.75rem; color:var(--text-muted); font-weight:400;">Assign or remove team members</span></span>
+      </button>
+      <button onclick="showEscalateRisk('${p.id}')" style="justify-content:flex-start; padding:14px 18px; font-size:0.9rem; background:rgba(244,63,94,0.08); border:1px solid var(--status-rose); color:var(--status-rose); border-radius:12px; display:flex; align-items:flex-start; gap:12px; cursor:pointer; width:100%; text-align:left;">
+        <i class="fa-solid fa-triangle-exclamation" style="width:18px; margin-top:2px; flex-shrink:0;"></i>
+        <span><b>Escalate Risk</b><br><span style="font-size:0.75rem; opacity:0.7; font-weight:400;">Notify exec board & create incident</span></span>
+      </button>
     </div>
   `);
+}
+
+function viewProjectDetails(projId) {
+  const p = window.managerState.projects.find(x => x.id === projId);
+  if (!p) return;
+  closeInteractiveModal();
+  const hc = p.health==='Healthy'?'var(--status-emerald)':p.health==='At Risk'?'var(--status-amber)':'var(--status-rose)';
+  const milestones = [
+    {name:'Requirements & Planning', done: true},
+    {name:'Core Architecture Design', done: true},
+    {name:'Sprint 1 — Backend APIs', done: p.progress >= 30},
+    {name:'Sprint 2 — Frontend Integration', done: p.progress >= 60},
+    {name:'QA & Security Audit', done: p.progress >= 85},
+    {name:'Production Deployment', done: p.progress >= 95}
+  ];
+  setTimeout(() => {
+    showInteractiveModal(`Details: ${p.name}`, 'fa-diagram-project', `
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+          <div style="background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.3); border-radius:12px; padding:16px; text-align:center;">
+            <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:6px; text-transform:uppercase;">Completion</div>
+            <div style="font-size:2rem; font-weight:800; color:var(--accent-cyan);">${p.progress}%</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border-glass); border-radius:12px; padding:16px; text-align:center;">
+            <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:6px; text-transform:uppercase;">Health</div>
+            <div style="font-size:1.1rem; font-weight:800; color:${hc};">${p.health}</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border-glass); border-radius:12px; padding:16px; text-align:center;">
+            <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:6px; text-transform:uppercase;">Sprint</div>
+            <div style="font-size:0.95rem; font-weight:700;">${p.label}</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-glass); border-radius:12px; padding:16px;">
+          <div style="font-weight:700; margin-bottom:10px; color:var(--accent-cyan);"><i class="fa-solid fa-bars-progress" style="margin-right:8px;"></i>Progress Bar</div>
+          <div style="background:rgba(255,255,255,0.08); border-radius:8px; height:10px; overflow:hidden;">
+            <div style="height:100%; width:${p.progress}%; background:${p.progress>80?'var(--status-emerald)':p.progress>50?'var(--status-amber)':'var(--status-rose)'}; border-radius:8px;"></div>
+          </div>
+          <div style="font-size:0.8rem; color:var(--text-muted); margin-top:6px;">${p.lead} — ${p.id}</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-glass); border-radius:12px; padding:16px;">
+          <div style="font-weight:700; margin-bottom:10px; color:var(--status-amber);"><i class="fa-solid fa-list-check" style="margin-right:8px;"></i>Milestones</div>
+          ${milestones.map(m => `<div style="display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+            <i class="fa-solid ${m.done?'fa-circle-check':'fa-circle'}" style="color:${m.done?'var(--status-emerald)':'var(--text-dim)'}; font-size:0.9rem;"></i>
+            <span style="font-size:0.85rem; color:${m.done?'var(--text-main)':'var(--text-muted)'};">${m.name}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+    `, 'Close', closeInteractiveModal);
+  }, 200);
+}
+
+function generateProjectHealthReport(projId) {
+  const p = window.managerState.projects.find(x => x.id === projId);
+  if (!p) return;
+  closeInteractiveModal();
+  toast('Generating Health Report PDF...', 'info', 2500);
+  setTimeout(() => {
+    const healthColor = p.health==='Healthy'?'#059669':p.health==='At Risk'?'#D97706':'#E11D48';
+    const el = document.createElement('div');
+    el.style.cssText = 'padding:40px; background:#fff; color:#111; font-family:Arial,sans-serif; max-width:794px;';
+    el.innerHTML = `
+      <div style="border-bottom:3px solid #6366F1; padding-bottom:16px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:flex-start;">
+        <div><h1 style="margin:0; font-size:22px; color:#111;">Project Health Report</h1><h2 style="margin:4px 0 0; font-size:16px; color:#6366F1;">${p.name}</h2></div>
+        <div style="text-align:right; font-size:12px; color:#666;">${new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}<br><b style="color:#111;">ID: ${p.id}</b></div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:24px;">
+        <div style="border:1px solid #e5e7eb; border-radius:8px; padding:14px; text-align:center;"><div style="font-size:10px; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Completion</div><div style="font-size:1.8rem; font-weight:800; color:#6366F1;">${p.progress}%</div></div>
+        <div style="border:1px solid #e5e7eb; border-radius:8px; padding:14px; text-align:center;"><div style="font-size:10px; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Health</div><div style="font-size:1.1rem; font-weight:800; color:${healthColor};">${p.health}</div></div>
+        <div style="border:1px solid #e5e7eb; border-radius:8px; padding:14px; text-align:center;"><div style="font-size:10px; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Sprint</div><div style="font-size:0.95rem; font-weight:700; color:#111;">${p.label}</div></div>
+      </div>
+      <h3 style="color:#6366F1; border-bottom:1px solid #e5e7eb; padding-bottom:8px; font-size:14px;">Team & Ownership</h3>
+      <table style="width:100%; border-collapse:collapse; margin-bottom:20px; font-size:13px;">
+        <tr style="background:#f8fafc;"><td style="padding:9px; border:1px solid #e5e7eb; font-weight:700; width:35%;">Project Lead</td><td style="padding:9px; border:1px solid #e5e7eb;">${p.lead}</td></tr>
+        <tr><td style="padding:9px; border:1px solid #e5e7eb; font-weight:700;">Project ID</td><td style="padding:9px; border:1px solid #e5e7eb;">${p.id}</td></tr>
+        <tr style="background:#f8fafc;"><td style="padding:9px; border:1px solid #e5e7eb; font-weight:700;">Report Period</td><td style="padding:9px; border:1px solid #e5e7eb;">Q3 2026</td></tr>
+      </table>
+      <h3 style="color:#6366F1; border-bottom:1px solid #e5e7eb; padding-bottom:8px; font-size:14px;">Risk Assessment</h3>
+      <div style="background:${p.health==='Healthy'?'#d1fae5':p.health==='At Risk'?'#fef3c7':'#fee2e2'}; border-left:4px solid ${healthColor}; padding:14px; border-radius:0 8px 8px 0; font-size:13px; color:#111;">
+        <b>Status: ${p.health}</b><br>${p.health==='Healthy'?'Project is on track. All milestones within expected timeline. No critical blockers.':p.health==='At Risk'?'Risks detected. Recommend immediate review of blockers and resource allocation.':'Project is blocked. Executive attention required to unblock progress.'}
+      </div>
+      <div style="font-size:10px; color:#aaa; border-top:1px solid #e5e7eb; padding-top:10px; margin-top:20px; text-align:center;">
+        SynapseAI Manager Operations Portal — Confidential — ${new Date().toLocaleString()}
+      </div>
+    `;
+    html2pdf().set({margin:10, filename:p.id+'_Health_Report.pdf', html2canvas:{scale:2}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}})
+      .from(el).save().then(() => toast('Health Report PDF downloaded!', 'success', 4000));
+  }, 600);
+}
+
+function showReallocateResources(projId) {
+  const p = window.managerState.projects.find(x => x.id === projId);
+  if (!p) return;
+  closeInteractiveModal();
+  const team = ['Haritha L.', 'Priya S.', 'Rahul K.', 'Sarah J.', 'Mark T.', 'Alex R.'];
+  setTimeout(() => {
+    showInteractiveModal(`Reallocate Resources: ${p.name}`, 'fa-people-arrows', `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:12px; font-size:0.85rem; color:var(--status-emerald);">
+          <i class="fa-solid fa-circle-info" style="margin-right:8px;"></i>Current lead: <b>${p.lead}</b> — Select team members to assign.
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px; max-height:280px; overflow-y:auto;">
+          ${team.map(m => `
+            <label style="display:flex; align-items:center; gap:12px; padding:12px; background:rgba(255,255,255,0.03); border:1px solid var(--border-glass); border-radius:10px; cursor:pointer;">
+              <input type="checkbox" ${m===p.lead?'checked':''} style="width:16px; height:16px; accent-color:var(--accent-primary);">
+              <div class="avatar" style="width:32px; height:32px; font-size:0.8rem; border-radius:8px;">${m.charAt(0)}</div>
+              <div><div style="font-weight:600; font-size:0.88rem;">${m}</div><div style="font-size:0.73rem; color:var(--text-muted);">Senior Engineer</div></div>
+              ${m===p.lead?'<span style="margin-left:auto; font-size:0.68rem; background:rgba(99,102,241,0.2); color:var(--accent-primary); padding:2px 8px; border-radius:6px; border:1px solid var(--accent-primary);">Lead</span>':''}
+            </label>`).join('')}
+        </div>
+        <button class="btn-submit" onclick="closeInteractiveModal(); toast('Resources updated for ${p.name}!', 'success', 4000);" style="width:100%; justify-content:center;">
+          <i class="fa-solid fa-check" style="margin-right:8px;"></i> Confirm Assignment
+        </button>
+      </div>
+    `);
+  }, 200);
+}
+
+function showEscalateRisk(projId) {
+  const p = window.managerState.projects.find(x => x.id === projId);
+  if (!p) return;
+  closeInteractiveModal();
+  const defNotes = p.health !== 'Healthy' ? 'Project ' + p.name + ' is ' + p.health + ' at ' + p.progress + '% completion. Immediate leadership review required.' : '';
+  setTimeout(() => {
+    showInteractiveModal(`Escalate Risk: ${p.name}`, 'fa-triangle-exclamation', `
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div style="background:rgba(244,63,94,0.08); border:1px solid rgba(244,63,94,0.3); border-radius:10px; padding:12px; font-size:0.85rem; color:var(--status-rose);">
+          <i class="fa-solid fa-triangle-exclamation" style="margin-right:8px;"></i>
+          This will notify the Executive Board and create an incident ticket.
+        </div>
+        <div>
+          <label style="font-size:0.78rem; color:var(--text-muted); font-weight:700; display:block; margin-bottom:6px;">RISK SEVERITY</label>
+          <select id="esc_sev_${p.id}" style="background:rgba(20,27,45,0.95); border:1px solid var(--border-glass); border-radius:10px; padding:11px; color:white; font-size:0.88rem; width:100%;">
+            <option value="low">Low — Monitoring Required</option>
+            <option value="medium" selected>Medium — Immediate Attention</option>
+            <option value="high">High — Critical Escalation</option>
+            <option value="critical">Critical — Executive Emergency</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.78rem; color:var(--text-muted); font-weight:700; display:block; margin-bottom:6px;">ESCALATION NOTES</label>
+          <textarea id="esc_notes_${p.id}" style="background:rgba(20,27,45,0.95); border:1px solid var(--border-glass); border-radius:10px; padding:11px; color:white; font-size:0.85rem; resize:vertical; min-height:90px; width:100%; font-family:inherit;">${defNotes}</textarea>
+        </div>
+        <div>
+          <label style="font-size:0.78rem; color:var(--text-muted); font-weight:700; display:block; margin-bottom:8px;">NOTIFY</label>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            ${['CEO','CTO','CFO','VP Engineering'].map((r,i) => `
+              <label style="display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.04); padding:7px 12px; border-radius:8px; cursor:pointer; font-size:0.82rem; border:1px solid var(--border-glass);">
+                <input type="checkbox" ${i>0&&i<2?'checked':''} style="accent-color:var(--status-rose);"> ${r}
+              </label>`).join('')}
+          </div>
+        </div>
+        <button onclick="
+          closeInteractiveModal();
+          toast('Risk escalated to Executive Board!', 'warning', 5000);
+          setTimeout(()=>toast('Incident ticket INC-${p.id.replace('-','')}-' + Date.now().toString().slice(-4) + ' created', 'info', 4000), 1600);
+        " style="background:linear-gradient(135deg,#E11D48,#9333EA); border:none; color:white; padding:13px; border-radius:12px; font-weight:700; font-size:0.92rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; width:100%;">
+          <i class="fa-solid fa-triangle-exclamation"></i> Confirm Escalation
+        </button>
+      </div>
+    `);
+  }, 200);
 }
 
 // MANAGER PORTAL PERSISTENT STATE & ENGINE
