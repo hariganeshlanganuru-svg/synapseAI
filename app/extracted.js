@@ -8797,83 +8797,23 @@ function submitNewPolicy() {
 
 function downloadPolicyPDF(polId) {
   const p = window.hrState.policiesList.find(x => x.id === polId) || window.hrState.policiesList[0];
-  const win = window.open('', '_blank');
-  if (win) {
-    win.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Policy Document - ${p.title}</title>
-        <style>
-          body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #f8fafc; padding: 40px; }
-          .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 32px; max-width: 800px; margin: 0 auto; }
-          h1 { color: #06b6d4; border-bottom: 2px solid #06b6d4; padding-bottom: 10px; margin: 0 0 8px 0; font-size: 1.6rem; }
-          .meta { font-size: 0.85rem; color: #94a3b8; margin-bottom: 20px; }
-          .content { line-height: 1.7; color: #cbd5e1; font-size: 0.95rem; white-space: pre-line; }
-          .btn-print { background: #06b6d4; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
-          @media print { .btn-print { display: none; } body { background: white; color: black; } .card { background: white; border: 1px solid #ccc; color: black; } h1 { color: #000; } }
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>
-        <script>
-        function downloadAsPDF() {
-            var btn = document.querySelector('.btn-print');
-            if(btn) btn.style.display = 'none';
-            html2pdf().from(document.body).set({
-                margin: 10,
-                filename: 'SynapseAI_Document.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            }).save().then(function(){
-                if(btn) btn.style.display = 'block';
-            });
-        }
-        <\/script>
-</style>
-      </head>
-      <body>
-        <div style="max-width: 800px; margin: 0 auto;">
-          <button class="btn-print" onclick="downloadAsPDF()"><i class="fa-solid fa-print"></i> Download PDF</button>
+  toast('Generating Policy PDF...', 'info', 2000);
+  const element = document.createElement('div');
+  element.style.padding = '30px';
+  element.style.background = '#ffffff';
+  element.style.color = '#000000';
+  element.style.fontFamily = 'Arial, sans-serif';
+  element.innerHTML = `
+        <div style="max-width: 800px; margin: 0 auto; border: 1px solid #ccc; padding: 30px; border-radius: 8px;">
+          <h1 style="color: #06b6d4; border-bottom: 2px solid #06b6d4; padding-bottom: 10px; margin: 0 0 8px 0; font-size: 24px;">?? Official Policy: ${p.title}</h1>
+          <div style="font-size: 13px; color: #555; margin-bottom: 20px;">
+            Department: <b>${p.dept}</b> | Version: <b>${p.version}</b> | Last Revised: <b>${p.updated}</b> | Status: <b>${p.status}</b>
+          </div>
+          <div style="line-height: 1.7; color: #222; font-size: 15px; white-space: pre-line;">${p.content}</div>
         </div>
-        <div class="card">
-          <h1>📋 Official Policy: ${p.title}</h1>
-          <div class="meta">Department: <b>${p.dept}</b> | Version: <b>${p.version}</b> | Last Revised: <b>${p.updated}</b> | Status: <b style="color:#34d399;">${p.status}</b></div>
-          <div class="content">${p.content}</div>
-        </div>
-      
-  <!-- PDF Viewer Modal -->
-  <div id="pdf-viewer-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:99999; align-items:center; justify-content:center;">
-    <div class="glass-card" style="width:90%; max-width:1000px; height:85vh; display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden;">
-      <div style="padding:16px 20px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <h3 id="pdf-modal-title" style="margin:0; font-family:'Outfit'; color:var(--text-main);"><i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> Document Viewer</h3>
-          <span style="font-size:0.8rem; color:var(--text-muted);">Confidential & Proprietary</span>
-        </div>
-        <div style="display:flex; gap:12px;">
-          <button class="btn-secondary" onclick="document.getElementById('pdf-viewer-modal').style.display='none'" style="padding:6px 12px; font-size:0.8rem;">Close Viewer</button>
-        </div>
-      </div>
-      <div style="flex:1; background:#fff; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column;">
-        <div style="position:absolute; top:40px; text-align:center; color:#333; font-family:serif;">
-          <h1 id="pdf-modal-doc-title" style="margin-bottom:10px; font-size:24px;">Document Title</h1>
-          <hr style="border:0; border-top:2px solid #ccc; width:200px; margin:0 auto 40px auto;"/>
-          <p id="pdf-modal-doc-content" style="max-width:700px; margin:0 auto; line-height:1.8; text-align:justify; font-size:16px;">
-            This is a simulated PDF document. In a production environment, this would render an actual PDF file using PDF.js or a native browser viewer.
-          </p>
-        </div>
-        <div style="position:absolute; bottom:20px; color:#999; font-size:12px; font-family:sans-serif;">Page <span id="pdf-modal-doc-page">1</span></div>
-      </div>
-    </div>
-  </div>
-
-</body>
-      </html>
-    `);
-    win.document.close();
-    toast('Opened printable PDF for ' + p.title, 'success');
-  }
+  `;
+  html2pdf().set({ margin: 10, filename: 'Policy_'+p.title.replace(/\s+/g,'_')+'.pdf', html2canvas: { scale: 2 } }).from(element).save().then(() => toast('Policy downloaded!', 'success'));
 }
-
 
 // =========================================================================
 // STATEFUL HR TRAINING & LEARNING MANAGEMENT ENGINE
@@ -9387,86 +9327,26 @@ function submitUploadPersonalDoc() {
 
 function downloadPersonalDocPDF(docId) {
   const d = window.employeeState.personalDocuments.find(x => x.id === docId) || window.employeeState.personalDocuments[0];
-  const win = window.open('', '_blank');
-  if (win) {
-    win.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Document - ${d.title}</title>
-        <style>
-          body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #f8fafc; padding: 40px; }
-          .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 32px; max-width: 800px; margin: 0 auto; }
-          h1 { color: #06b6d4; border-bottom: 2px solid #06b6d4; padding-bottom: 10px; margin: 0 0 8px 0; font-size: 1.6rem; }
-          .meta { font-size: 0.85rem; color: #94a3b8; margin-bottom: 20px; }
-          .content { line-height: 1.7; color: #cbd5e1; font-size: 0.95rem; white-space: pre-line; }
-          .btn-print { background: #06b6d4; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
-          @media print { .btn-print { display: none; } body { background: white; color: black; } .card { background: white; border: 1px solid #ccc; color: black; } h1 { color: #000; } }
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>
-        <script>
-        function downloadAsPDF() {
-            var btn = document.querySelector('.btn-print');
-            if(btn) btn.style.display = 'none';
-            html2pdf().from(document.body).set({
-                margin: 10,
-                filename: 'SynapseAI_Document.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            }).save().then(function(){
-                if(btn) btn.style.display = 'block';
-            });
-        }
-        <\/script>
-</style>
-      </head>
-      <body>
-        <div style="max-width: 800px; margin: 0 auto;">
-          <button class="btn-print" onclick="downloadAsPDF()"><i class="fa-solid fa-print"></i> Download PDF</button>
+  toast('Generating Document PDF...', 'info', 2000);
+  const element = document.createElement('div');
+  element.style.padding = '30px';
+  element.style.background = '#ffffff';
+  element.style.color = '#000000';
+  element.style.fontFamily = 'Arial, sans-serif';
+  element.innerHTML = `
+        <div style="max-width: 800px; margin: 0 auto; border: 1px solid #ccc; padding: 30px; border-radius: 8px;">
+          <h1 style="color: #06b6d4; border-bottom: 2px solid #06b6d4; padding-bottom: 10px; margin: 0 0 8px 0; font-size: 24px;">?? ${d.title}</h1>
+          <div style="font-size: 13px; color: #555; margin-bottom: 20px;">
+            Category: <b>${d.category}</b> | Issued Date: <b>${d.issued}</b> | File Size: <b>${d.size}</b> | Status: <b>${d.status}</b>
+          </div>
+          <h3 style="color:#818cf8; margin-bottom:5px;">Security Verification Metadata</h3>
+          <p style="margin-top:0; font-size:13px; color:#444;"><b>Cryptographic SHA-256 Hash:</b> ${d.hash}</p>
+          <h3 style="margin-top:20px; margin-bottom:10px;">Document Summary & Excerpt</h3>
+          <div style="line-height: 1.7; color: #222; font-size: 15px; white-space: pre-line;">${d.summary}</div>
         </div>
-        <div class="card">
-          <h1>📄 ${d.title}</h1>
-          <div class="meta">Category: <b>${d.category}</b> | Issued Date: <b>${d.issued}</b> | File Size: <b>${d.size}</b> | Status: <b style="color:#34d399;">${d.status}</b></div>
-          <h3 style="color:#818cf8;">Security Verification Metadata</h3>
-          <p><b>Cryptographic SHA-256 Hash:</b> ${d.hash}</p>
-          <h3>Document Summary & Excerpt</h3>
-          <div class="content">${d.summary}</div>
-        </div>
-      
-  <!-- PDF Viewer Modal -->
-  <div id="pdf-viewer-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:99999; align-items:center; justify-content:center;">
-    <div class="glass-card" style="width:90%; max-width:1000px; height:85vh; display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden;">
-      <div style="padding:16px 20px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <h3 id="pdf-modal-title" style="margin:0; font-family:'Outfit'; color:var(--text-main);"><i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> Document Viewer</h3>
-          <span style="font-size:0.8rem; color:var(--text-muted);">Confidential & Proprietary</span>
-        </div>
-        <div style="display:flex; gap:12px;">
-          <button class="btn-secondary" onclick="document.getElementById('pdf-viewer-modal').style.display='none'" style="padding:6px 12px; font-size:0.8rem;">Close Viewer</button>
-        </div>
-      </div>
-      <div style="flex:1; background:#fff; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column;">
-        <div style="position:absolute; top:40px; text-align:center; color:#333; font-family:serif;">
-          <h1 id="pdf-modal-doc-title" style="margin-bottom:10px; font-size:24px;">Document Title</h1>
-          <hr style="border:0; border-top:2px solid #ccc; width:200px; margin:0 auto 40px auto;"/>
-          <p id="pdf-modal-doc-content" style="max-width:700px; margin:0 auto; line-height:1.8; text-align:justify; font-size:16px;">
-            This is a simulated PDF document. In a production environment, this would render an actual PDF file using PDF.js or a native browser viewer.
-          </p>
-        </div>
-        <div style="position:absolute; bottom:20px; color:#999; font-size:12px; font-family:sans-serif;">Page <span id="pdf-modal-doc-page">1</span></div>
-      </div>
-    </div>
-  </div>
-
-</body>
-      </html>
-    `);
-    win.document.close();
-    toast('Opened printable PDF for ' + d.title, 'success');
-  }
+  `;
+  html2pdf().set({ margin: 10, filename: 'Document_'+d.title.replace(/\s+/g,'_')+'.pdf', html2canvas: { scale: 2 } }).from(element).save().then(() => toast('Document downloaded!', 'success'));
 }
-
 
 // =========================================================================
 // STATEFUL AI LEARNING HUB & SKILL MATRIX ENGINE
@@ -9592,87 +9472,27 @@ function submitEnrollCourse() {
 
 function downloadSkillCertificate(fileName) {
   const cleanTitle = fileName.replace(/_/g, ' ').replace('.pdf', '');
-  const win = window.open('', '_blank');
-  if (win) {
-    win.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Certificate of Achievement - ${cleanTitle}</title>
-        <style>
-          body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #f8fafc; padding: 40px; }
-          .card { background: #1e293b; border: 2px solid #06b6d4; border-radius: 12px; padding: 40px; max-width: 800px; margin: 0 auto; text-align: center; }
-          h1 { color: #06b6d4; margin: 10px 0; font-size: 2.2rem; }
-          .sub { font-size: 1.1rem; color: #94a3b8; margin-bottom: 20px; }
-          .name { font-size: 1.8rem; font-weight: bold; color: #34d399; margin: 16px 0; }
-          .btn-print { background: #06b6d4; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
-          @media print { .btn-print { display: none; } body { background: white; color: black; } .card { background: white; border: 2px solid #000; color: black; } h1 { color: #000; } }
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>
-        <script>
-        function downloadAsPDF() {
-            var btn = document.querySelector('.btn-print');
-            if(btn) btn.style.display = 'none';
-            html2pdf().from(document.body).set({
-                margin: 10,
-                filename: 'SynapseAI_Document.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            }).save().then(function(){
-                if(btn) btn.style.display = 'block';
-            });
-        }
-        <\/script>
-</style>
-      </head>
-      <body>
-        <div style="max-width: 800px; margin: 0 auto; text-align: left;">
-          <button class="btn-print" onclick="downloadAsPDF()"><i class="fa-solid fa-print"></i> Download PDF</button>
+  toast('Generating Certificate PDF...', 'info', 2000);
+  const element = document.createElement('div');
+  element.style.padding = '30px';
+  element.style.background = '#ffffff';
+  element.style.color = '#000000';
+  element.style.fontFamily = 'Arial, sans-serif';
+  element.innerHTML = `
+        <div style="max-width: 800px; margin: 0 auto; border: 4px solid #06b6d4; padding: 50px; border-radius: 12px; text-align: center; background: #fafafa;">
+          <div style="font-size: 3rem; color: #06b6d4; margin-bottom: 10px;">??</div>
+          <h1 style="font-size: 32px; color: #0f172a; margin: 0 0 20px 0; letter-spacing: 2px;">CERTIFICATE OF ACHIEVEMENT</h1>
+          <div style="font-size: 18px; color: #64748b; margin-bottom: 15px;">This certifies that</div>
+          <div style="font-size: 36px; color: #0f172a; font-weight: bold; margin-bottom: 15px; font-family: serif;">Haritha Langanuru</div>
+          <div style="font-size: 18px; color: #64748b; margin-bottom: 20px;">has successfully completed the professional course</div>
+          <h2 style="font-size: 24px; color: #06b6d4; margin: 20px 0;">${cleanTitle}</h2>
+          <div style="margin-top: 40px; font-size: 13px; color: #94a3b8; border-top: 1px solid #ccc; padding-top: 20px;">
+            Issued by SynapseAI Learning & Development &nbsp;|&nbsp; Verified Token: SYN-2026-CERT-${Math.floor(Math.random()*90000+10000)}
+          </div>
         </div>
-        <div class="card">
-          <div style="font-size:3rem; color:#06b6d4;">🎓</div>
-          <h1>CERTIFICATE OF ACHIEVEMENT</h1>
-          <div class="sub">This certifies that</div>
-          <div class="name">Haritha Langanuru</div>
-          <div class="sub">has successfully completed the professional course</div>
-          <h2 style="color:#f8fafc; margin:16px 0;">${cleanTitle}</h2>
-          <div style="margin-top:30px; font-size:0.85rem; color:#94a3b8;">Issued by SynapseAI Learning & Development • Verified Token: SYN-2026-CERT-${Math.floor(Math.random()*90000+10000)}</div>
-        </div>
-      
-  <!-- PDF Viewer Modal -->
-  <div id="pdf-viewer-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:99999; align-items:center; justify-content:center;">
-    <div class="glass-card" style="width:90%; max-width:1000px; height:85vh; display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden;">
-      <div style="padding:16px 20px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <h3 id="pdf-modal-title" style="margin:0; font-family:'Outfit'; color:var(--text-main);"><i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> Document Viewer</h3>
-          <span style="font-size:0.8rem; color:var(--text-muted);">Confidential & Proprietary</span>
-        </div>
-        <div style="display:flex; gap:12px;">
-          <button class="btn-secondary" onclick="document.getElementById('pdf-viewer-modal').style.display='none'" style="padding:6px 12px; font-size:0.8rem;">Close Viewer</button>
-        </div>
-      </div>
-      <div style="flex:1; background:#fff; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column;">
-        <div style="position:absolute; top:40px; text-align:center; color:#333; font-family:serif;">
-          <h1 id="pdf-modal-doc-title" style="margin-bottom:10px; font-size:24px;">Document Title</h1>
-          <hr style="border:0; border-top:2px solid #ccc; width:200px; margin:0 auto 40px auto;"/>
-          <p id="pdf-modal-doc-content" style="max-width:700px; margin:0 auto; line-height:1.8; text-align:justify; font-size:16px;">
-            This is a simulated PDF document. In a production environment, this would render an actual PDF file using PDF.js or a native browser viewer.
-          </p>
-        </div>
-        <div style="position:absolute; bottom:20px; color:#999; font-size:12px; font-family:sans-serif;">Page <span id="pdf-modal-doc-page">1</span></div>
-      </div>
-    </div>
-  </div>
-
-</body>
-      </html>
-    `);
-    win.document.close();
-    toast('Opened printable certificate for ' + cleanTitle, 'success');
-  }
+  `;
+  html2pdf().set({ margin: 10, filename: fileName, html2canvas: { scale: 2 }, jsPDF: { orientation: 'landscape' } }).from(element).save().then(() => toast('Certificate downloaded!', 'success'));
 }
-
 
 // =========================================================================
 // STATEFUL MY TASKS & DELIVERABLES ENGINE
@@ -9943,83 +9763,23 @@ function submitPostBroadcast() {
 
 function downloadAnnouncementPDF(annId) {
   const a = window.employeeState.announcementsList.find(x => x.id === annId) || window.employeeState.announcementsList[0];
-  const win = window.open('', '_blank');
-  if (win) {
-    win.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Announcement - ${a.title}</title>
-        <style>
-          body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #f8fafc; padding: 40px; }
-          .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 32px; max-width: 800px; margin: 0 auto; }
-          h1 { color: #06b6d4; border-bottom: 2px solid #06b6d4; padding-bottom: 10px; margin: 0 0 8px 0; font-size: 1.6rem; }
-          .meta { font-size: 0.85rem; color: #94a3b8; margin-bottom: 20px; }
-          .content { line-height: 1.7; color: #cbd5e1; font-size: 0.95rem; white-space: pre-line; }
-          .btn-print { background: #06b6d4; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
-          @media print { .btn-print { display: none; } body { background: white; color: black; } .card { background: white; border: 1px solid #ccc; color: black; } h1 { color: #000; } }
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>
-        <script>
-        function downloadAsPDF() {
-            var btn = document.querySelector('.btn-print');
-            if(btn) btn.style.display = 'none';
-            html2pdf().from(document.body).set({
-                margin: 10,
-                filename: 'SynapseAI_Document.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            }).save().then(function(){
-                if(btn) btn.style.display = 'block';
-            });
-        }
-        <\/script>
-</style>
-      </head>
-      <body>
-        <div style="max-width: 800px; margin: 0 auto;">
-          <button class="btn-print" onclick="downloadAsPDF()"><i class="fa-solid fa-print"></i> Download PDF</button>
+  toast('Generating Broadcast PDF...', 'info', 2000);
+  const element = document.createElement('div');
+  element.style.padding = '30px';
+  element.style.background = '#ffffff';
+  element.style.color = '#000000';
+  element.style.fontFamily = 'Arial, sans-serif';
+  element.innerHTML = `
+        <div style="max-width: 800px; margin: 0 auto; border: 1px solid #ccc; padding: 30px; border-radius: 8px;">
+          <h1 style="color: #ef4444; border-bottom: 2px solid #ef4444; padding-bottom: 10px; margin: 0 0 8px 0; font-size: 24px;">?? Official Broadcast: ${a.title}</h1>
+          <div style="font-size: 13px; color: #555; margin-bottom: 20px;">
+            Department: <b>${a.dept}</b> | Published: <b>${a.date}</b> | Priority: <b style="color:#ef4444;">${a.priority}</b>
+          </div>
+          <div style="line-height: 1.7; color: #222; font-size: 15px; white-space: pre-line;">${a.fullText}</div>
         </div>
-        <div class="card">
-          <h1>📢 Official Broadcast: ${a.title}</h1>
-          <div class="meta">Department: <b>${a.dept}</b> | Published: <b>${a.date}</b> | Priority: <b style="color:#ef4444;">${a.priority}</b></div>
-          <div class="content">${a.fullText}</div>
-        </div>
-      
-  <!-- PDF Viewer Modal -->
-  <div id="pdf-viewer-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:99999; align-items:center; justify-content:center;">
-    <div class="glass-card" style="width:90%; max-width:1000px; height:85vh; display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden;">
-      <div style="padding:16px 20px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <h3 id="pdf-modal-title" style="margin:0; font-family:'Outfit'; color:var(--text-main);"><i class="fa-solid fa-file-pdf" style="color:var(--status-amber); margin-right:8px;"></i> Document Viewer</h3>
-          <span style="font-size:0.8rem; color:var(--text-muted);">Confidential & Proprietary</span>
-        </div>
-        <div style="display:flex; gap:12px;">
-          <button class="btn-secondary" onclick="document.getElementById('pdf-viewer-modal').style.display='none'" style="padding:6px 12px; font-size:0.8rem;">Close Viewer</button>
-        </div>
-      </div>
-      <div style="flex:1; background:#fff; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column;">
-        <div style="position:absolute; top:40px; text-align:center; color:#333; font-family:serif;">
-          <h1 id="pdf-modal-doc-title" style="margin-bottom:10px; font-size:24px;">Document Title</h1>
-          <hr style="border:0; border-top:2px solid #ccc; width:200px; margin:0 auto 40px auto;"/>
-          <p id="pdf-modal-doc-content" style="max-width:700px; margin:0 auto; line-height:1.8; text-align:justify; font-size:16px;">
-            This is a simulated PDF document. In a production environment, this would render an actual PDF file using PDF.js or a native browser viewer.
-          </p>
-        </div>
-        <div style="position:absolute; bottom:20px; color:#999; font-size:12px; font-family:sans-serif;">Page <span id="pdf-modal-doc-page">1</span></div>
-      </div>
-    </div>
-  </div>
-
-</body>
-      </html>
-    `);
-    win.document.close();
-    toast('Opened printable PDF for ' + a.title, 'success');
-  }
+  `;
+  html2pdf().set({ margin: 10, filename: 'Broadcast_'+a.title.replace(/\s+/g,'_')+'.pdf', html2canvas: { scale: 2 } }).from(element).save().then(() => toast('Broadcast downloaded!', 'success'));
 }
-
 
 // =========================================================================
 // STATEFUL PROFILE & SECURITY SETTINGS ENGINE
