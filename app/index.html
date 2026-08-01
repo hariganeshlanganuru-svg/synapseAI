@@ -484,17 +484,32 @@
   </style>
 
 <script>
+
 function downloadAsPDF() {
-  const pdfBase64 = "JVBERi0xLjEKJcKlwrHDqwoKMSAwIG9iagogIDw8IC9UeXBlIC9DYXRhbG9nCiAgICAgL1BhZ2VzIDIgMCBSCiAgPj4KZW5kb2JqCgoyIDAgb2JqCiAgPDwgL1R5cGUgL1BhZ2VzCiAgICAgL0tpZHMgWzMgMCBSXQogICAgIC9Db3VudCAxCiAgICAgL01lZGlhQm94IFswIDAgMzAwIDE0NF0KICA+PgplbmRvYmoKCjMgMCBvYmoKICA8PCAgL1R5cGUgL1BhZ2UKICAgICAgL1BhcmVudCAyIDAgUgogICAgICAvUmVzb3VyY2VzCiAgICAgICA8PCAvRm9udAogICAgICAgICAgIDw8IC9GMQogICAgICAgICAgICAgICA8PCAvVHlwZSAvRm9udAogICAgICAgICAgICAgICAgICAvU3VidHlwZSAvVHlwZTEKICAgICAgICAgICAgICAgICAgL0Jhc2VGb250IC9UaW1lcy1Sb21hbgogICAgICAgICAgICAgICA+PgogICAgICAgICAgID4+CiAgICAgICA+PgogICAgICAvQ29udGVudHMgNCAwIFIKICA+PgplbmRvYmoKCjQgMCBvYmoKICA8PCAvTGVuZ3RoIDY4ID4+CnN0cmVhbQogIEJUCiAgICAvRjEgMTggVGYKICAgIDAgMCAwIHJnCiAgICAwIDUwIFRkCiAgICAoU2ltdWxhdGVkIFBERiBEb2N1bWVudCkgVGoKICBFVAplbmRzdHJlYW0KZW5kb2JqCgp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMTggMDAwMDAgbiAKMDAwMDAwMDA3NyAwMDAwMCBuIAowMDAwMDAwMTc4IDAwMDAwIG4gCjAwMDAwMDA0NTcgMDAwMDAgbiAKdHJhaWxlcgogIDw8ICAvUm9vdCAxIDAgUgogICAgICAvU2l6ZSA1CiAgPj4Kc3RhcnR4cmVmCjU3NQolJUVPRgo=";
-  const link = document.createElement("a");
-  link.href = "data:application/pdf;base64," + pdfBase64;
-  link.download = "SynapseAI_Document.pdf";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  if(typeof toast === "function") {
-    toast("PDF downloaded successfully!", "success");
+  const modal = document.getElementById('pdf-viewer-modal');
+  let elementToPrint = document.body;
+  if(modal && modal.style.display !== 'none') {
+      // Print just the inner card of the modal
+      elementToPrint = modal.querySelector('.glass-card');
   }
+  
+  // Hide buttons during print
+  const buttons = elementToPrint.querySelectorAll('button');
+  buttons.forEach(b => b.style.display = 'none');
+  
+  html2pdf().from(elementToPrint).set({
+      margin: 10,
+      filename: 'SynapseAI_Document.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  }).save().then(function() {
+      buttons.forEach(b => b.style.display = '');
+      if(typeof toast === "function") {
+          toast("PDF downloaded successfully!", "success");
+      }
+  });
+}
 }
 </script>
 
@@ -8890,7 +8905,24 @@ function downloadFile(btn, filename) {
               .subtitle { color: #94a3b8; font-size: 1.1rem; margin-bottom: 24px; }
               .btn-print { background: #6366f1; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
               @media print { .btn-print { display: none; } body { background: white; color: black; } .card { background: white; border: 1px solid #ccc; } h1 { color: #333; } }
-            </style>
+            
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script>
+        function downloadAsPDF() {
+            var btn = document.querySelector('.btn-print');
+            if(btn) btn.style.display = 'none';
+            html2pdf().from(document.body).set({
+                margin: 10,
+                filename: 'SynapseAI_Document.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).save().then(function(){
+                if(btn) btn.style.display = 'block';
+            });
+        }
+        </script>
+</style>
           </head>
           <body>
             <button class="btn-print" onclick="downloadAsPDF()"><i class="fa-solid fa-print"></i> Download PDF</button>
@@ -9867,7 +9899,24 @@ function downloadCandidateResume(fileName) {
           .skill-pill { background: rgba(99, 102, 241, 0.2); border: 1px solid #6366f1; color: #a5b4fc; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; }
           .btn-print { background: #06b6d4; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
           @media print { .btn-print { display: none; } body { background: white; color: black; } .resume-card { background: white; border: 1px solid #ccc; color: black; } h1 { color: #000; } p, .contact { color: #333; } }
-        </style>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script>
+        function downloadAsPDF() {
+            var btn = document.querySelector('.btn-print');
+            if(btn) btn.style.display = 'none';
+            html2pdf().from(document.body).set({
+                margin: 10,
+                filename: 'SynapseAI_Document.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).save().then(function(){
+                if(btn) btn.style.display = 'block';
+            });
+        }
+        </script>
+</style>
       </head>
       <body>
         <div style="max-width: 800px; margin: 0 auto;">
@@ -10217,7 +10266,24 @@ function downloadPolicyPDF(polId) {
           .content { line-height: 1.7; color: #cbd5e1; font-size: 0.95rem; white-space: pre-line; }
           .btn-print { background: #06b6d4; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
           @media print { .btn-print { display: none; } body { background: white; color: black; } .card { background: white; border: 1px solid #ccc; color: black; } h1 { color: #000; } }
-        </style>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script>
+        function downloadAsPDF() {
+            var btn = document.querySelector('.btn-print');
+            if(btn) btn.style.display = 'none';
+            html2pdf().from(document.body).set({
+                margin: 10,
+                filename: 'SynapseAI_Document.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).save().then(function(){
+                if(btn) btn.style.display = 'block';
+            });
+        }
+        </script>
+</style>
       </head>
       <body>
         <div style="max-width: 800px; margin: 0 auto;">
@@ -10790,7 +10856,24 @@ function downloadPersonalDocPDF(docId) {
           .content { line-height: 1.7; color: #cbd5e1; font-size: 0.95rem; white-space: pre-line; }
           .btn-print { background: #06b6d4; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
           @media print { .btn-print { display: none; } body { background: white; color: black; } .card { background: white; border: 1px solid #ccc; color: black; } h1 { color: #000; } }
-        </style>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script>
+        function downloadAsPDF() {
+            var btn = document.querySelector('.btn-print');
+            if(btn) btn.style.display = 'none';
+            html2pdf().from(document.body).set({
+                margin: 10,
+                filename: 'SynapseAI_Document.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).save().then(function(){
+                if(btn) btn.style.display = 'block';
+            });
+        }
+        </script>
+</style>
       </head>
       <body>
         <div style="max-width: 800px; margin: 0 auto;">
@@ -10978,7 +11061,24 @@ function downloadSkillCertificate(fileName) {
           .name { font-size: 1.8rem; font-weight: bold; color: #34d399; margin: 16px 0; }
           .btn-print { background: #06b6d4; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
           @media print { .btn-print { display: none; } body { background: white; color: black; } .card { background: white; border: 2px solid #000; color: black; } h1 { color: #000; } }
-        </style>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script>
+        function downloadAsPDF() {
+            var btn = document.querySelector('.btn-print');
+            if(btn) btn.style.display = 'none';
+            html2pdf().from(document.body).set({
+                margin: 10,
+                filename: 'SynapseAI_Document.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).save().then(function(){
+                if(btn) btn.style.display = 'block';
+            });
+        }
+        </script>
+</style>
       </head>
       <body>
         <div style="max-width: 800px; margin: 0 auto; text-align: left;">
@@ -11312,7 +11412,24 @@ function downloadAnnouncementPDF(annId) {
           .content { line-height: 1.7; color: #cbd5e1; font-size: 0.95rem; white-space: pre-line; }
           .btn-print { background: #06b6d4; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
           @media print { .btn-print { display: none; } body { background: white; color: black; } .card { background: white; border: 1px solid #ccc; color: black; } h1 { color: #000; } }
-        </style>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script>
+        function downloadAsPDF() {
+            var btn = document.querySelector('.btn-print');
+            if(btn) btn.style.display = 'none';
+            html2pdf().from(document.body).set({
+                margin: 10,
+                filename: 'SynapseAI_Document.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).save().then(function(){
+                if(btn) btn.style.display = 'block';
+            });
+        }
+        </script>
+</style>
       </head>
       <body>
         <div style="max-width: 800px; margin: 0 auto;">
