@@ -12511,5 +12511,71 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 
+
+<script>
+  // ── URL-based Auto-Login ──────────────────────────────────────────────────
+  // Visiting the app with ?role=admin (or ?portal=admin) will automatically
+  // authenticate as the Admin user and open the Admin Control Center directly.
+  (function () {
+    function autoLoginFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const roleParam = (params.get('role') || params.get('portal') || '').toLowerCase();
+      if (roleParam !== 'admin') return;
+
+      // Wait until authState and switchRole are ready
+      const maxWait = 8000;
+      const interval = 150;
+      let elapsed = 0;
+
+      const poller = setInterval(function () {
+        elapsed += interval;
+        if (elapsed > maxWait) { clearInterval(poller); return; }
+
+        if (typeof window.authState === 'undefined' || typeof switchRole !== 'function') return;
+
+        clearInterval(poller);
+
+        // Build / find admin user
+        if (!window.authState.registeredUsers) window.authState.registeredUsers = [];
+        let adminUser = window.authState.registeredUsers.find(
+          function (u) { return u.email.toLowerCase() === 'harithalanganuru@gmail.com'; }
+        );
+        if (!adminUser) {
+          adminUser = {
+            email: 'harithalanganuru@gmail.com',
+            pass: 'password123',
+            name: 'Haritha Langanuru',
+            role: 'Admin',
+            dept: 'System Security',
+            status: 'Approved'
+          };
+          window.authState.registeredUsers.push(adminUser);
+        }
+        adminUser.status = 'Approved';
+        window.authState.isAuthenticated = true;
+        window.authState.currentUser = adminUser;
+
+        // Hide auth modal & landing, show workspace
+        var modal = document.getElementById('synapse-auth-modal');
+        if (modal) modal.style.display = 'none';
+        var landing = document.getElementById('synapse-landing-page');
+        if (landing) landing.style.display = 'none';
+        var workspace = document.getElementById('main-workspace-wrapper');
+        if (workspace) workspace.style.setProperty('display', 'flex', 'important');
+
+        if (typeof enforceRoleIsolation === 'function') enforceRoleIsolation('Admin');
+        switchRole('Admin');
+        if (typeof toast === 'function') toast('Admin Portal opened via direct link.', 'success');
+      }, interval);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', autoLoginFromURL);
+    } else {
+      autoLoginFromURL();
+    }
+  })();
+</script>
+
 </body>
 </html>
