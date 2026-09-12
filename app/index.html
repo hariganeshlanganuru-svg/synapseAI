@@ -8537,6 +8537,10 @@ Document **Marketing_Policy_2024.pdf** (ID: \`doc-mkt-9402\`) has been removed f
   if (!window.authState || !window.authState.isAuthenticated) {
     showLandingPage();
     checkAdminUrlHash();
+    // Check if URL path is /admin and open admin login modal
+    if (window.location.pathname.includes('/admin')) {
+      setTimeout(() => openAuthModal('signin', 'Admin'), 300);
+    }
   } else {
     const mainWorkspace = document.getElementById('main-workspace-wrapper');
     if (mainWorkspace) mainWorkspace.style.setProperty('display', 'flex', 'important');
@@ -12554,13 +12558,13 @@ window.addEventListener('DOMContentLoaded', () => {
         // Build / find admin user
         if (!window.authState.registeredUsers) window.authState.registeredUsers = [];
         let adminUser = window.authState.registeredUsers.find(
-          function (u) { return u.email.toLowerCase() === 'harithalanganuru@gmail.com'; }
+          function (u) { return u.email.toLowerCase() === 'hariganeshlanganuru@gmail.com'; }
         );
         if (!adminUser) {
           adminUser = {
-            email: 'harithalanganuru@gmail.com',
-            pass: 'password123',
-            name: 'Haritha Langanuru',
+            email: 'hariganeshlanganuru@gmail.com',
+            pass: 'hariganesh@123',
+            name: 'Hariganesh Langanuru',
             role: 'Admin',
             dept: 'System Security',
             status: 'Approved'
