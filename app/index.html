@@ -11554,7 +11554,7 @@ function renderAuthModalContent(mode, targetRole = 'Employee') {
         </select>
 
         <label style="font-size:0.8rem; color:#94A3B8; display:block; margin-bottom:4px;">Email Address</label>
-        <input type="email" id="auth-email" class="input-box" placeholder="e.g. haritha.l@synapseai.com" style="margin-bottom:14px; width:100%;" value="${targetRole === 'HR' ? 'hr@synapseai.com' : targetRole === 'Manager' ? 'manager@synapseai.com' : targetRole === 'Admin' ? 'admin@synapseai.com' : 'haritha.l@synapseai.com'}">
+        <input type="email" id="auth-email" class="input-box" placeholder="e.g. haritha.l@synapseai.com" style="margin-bottom:14px; width:100%;" value="${targetRole === 'HR' ? 'hr@synapseai.com' : targetRole === 'Manager' ? 'manager@synapseai.com' : targetRole === 'Admin' ? 'hariganeshlanganuru@gmail.com' : 'haritha.l@synapseai.com'}">
 
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
           <label style="font-size:0.8rem; color:#94A3B8;">Password</label>
@@ -11771,11 +11771,27 @@ function submitSignIn(forcedRole) {
   const freshUsers = getPersistentRegisteredUsers();
   if (window.authState) window.authState.registeredUsers = freshUsers;
 
-  // Admin shortcut
-  if (email.toLowerCase() === 'harithalanganuru@gmail.com' || role === 'Admin') {
-    let adminUser = freshUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+  // Admin shortcut - Check credentials
+  const adminEmail = 'hariganeshlanganuru@gmail.com';
+  const adminPassword = 'hariganesh@123';
+  
+  if (email.toLowerCase() === adminEmail.toLowerCase() && role === 'Admin') {
+    // Verify password
+    if (pass !== adminPassword) {
+      toast('Incorrect admin password. Please try again.', 'error');
+      return;
+    }
+    
+    let adminUser = freshUsers.find(u => u.email.toLowerCase() === adminEmail.toLowerCase());
     if (!adminUser) {
-      adminUser = { email, pass, name: 'Haritha Langanuru', role: 'Admin', dept: 'System Security', status: 'Approved' };
+      adminUser = { 
+        email: adminEmail, 
+        pass: adminPassword, 
+        name: 'Hariganesh Langanuru', 
+        role: 'Admin', 
+        dept: 'System Security', 
+        status: 'Approved' 
+      };
       window.authState.registeredUsers.push(adminUser);
       savePersistentRegisteredUsers();
     }
@@ -11791,7 +11807,7 @@ function submitSignIn(forcedRole) {
     if (mainWorkspace) mainWorkspace.style.setProperty('display', 'flex', 'important');
     if (typeof enforceRoleIsolation === 'function') enforceRoleIsolation('Admin');
     if (typeof switchRole === 'function') switchRole('Admin');
-    toast('Admin Authenticated! Welcome, Haritha Langanuru.', 'success');
+    toast('Admin Authenticated! Welcome, Hariganesh Langanuru.', 'success');
     return;
   }
 
@@ -12203,7 +12219,7 @@ async function submitSignUpEmailCode() {
 
   // Push pending access request to Approver immediately
   const approverRole = role === 'Employee' ? 'Manager' : 'Admin';
-  const approverEmail = role === 'Employee' ? 'manager@synapseai.com' : 'harithalanganuru@gmail.com';
+  const approverEmail = role === 'Employee' ? 'manager@synapseai.com' : 'hariganeshlanganuru@gmail.com';
   def_dispatch_notification(
     approverRole,
     approverEmail,
