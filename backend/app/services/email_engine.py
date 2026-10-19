@@ -6,7 +6,7 @@ from email.mime.multipart import MIMEMultipart
 from app.config import settings
 
 
-async def generate_email_draft(prompt: str, recipient: str = "harithalanganuru@gmail.com") -> dict:
+async def generate_email_draft(prompt: str, recipient: str = "hariganeshlanganuru@gmail.com") -> dict:
     clean_prompt = prompt
     for prefix in ["HR Notice:", "Notice:", "Policy Notice:", "HR Notification:"]:
         if clean_prompt.lower().startswith(prefix.lower()):

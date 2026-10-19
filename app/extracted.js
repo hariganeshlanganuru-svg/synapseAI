@@ -62,10 +62,10 @@ function getPersistentRegisteredUsers() {
   } catch(e) {}
   // Default built-in users
   return [
-    { email: 'harithalanganuru@gmail.com', pass: 'password123', name: 'Haritha Langanuru', role: 'Admin', dept: 'System Security', status: 'Approved' },
+    { email: 'hariganeshlanganuru@gmail.com', pass: 'password123', name: 'Hariganesh Yadav Langanuru', role: 'Admin', dept: 'System Security', status: 'Approved' },
     { email: 'manager@synapseai.com', pass: 'password123', name: 'Marcus Vance', role: 'Manager', dept: 'Engineering', status: 'Approved' },
     { email: 'hr@synapseai.com', pass: 'password123', name: 'Sarah Jenkins', role: 'HR', dept: 'Human Resources', status: 'Approved' },
-    { email: 'haritha.l@synapseai.com', pass: 'password123', name: 'Haritha Langanuru', role: 'Employee', dept: 'Engineering', status: 'Approved' },
+    { email: 'hariganesh.l@synapseai.com', pass: 'password123', name: 'Hariganesh Yadav Langanuru', role: 'Employee', dept: 'Engineering', status: 'Approved' },
     { email: 'employee@synapseai.com', pass: 'password123', name: 'Alex Rivera', role: 'Employee', dept: 'Engineering', status: 'Approved' }
   ];
 }
@@ -170,7 +170,7 @@ const def_dispatch_notification = async function(targetRole, targetEmail, title,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        recipient: targetEmail || 'harithalanganuru@gmail.com',
+        recipient: targetEmail || 'hariganeshlanganuru@gmail.com',
         subject: `SynapseAI Notification: ${title}`,
         body: `Dear ${targetRole},
 
@@ -259,7 +259,7 @@ async function approveUserRegistration(notifId, userEmailFallback) {
         employees: [
           { id: 'EMP-001', name: 'Sarah Jenkins', email: 'sarah@enterprise.com', dept: 'Executive Board', manager: 'Board Director', role: 'CEO', status: 'Active', avatar: 'SJ', color: '#F43F5E' },
           { id: 'EMP-002', name: 'David Miller', email: 'david@enterprise.com', dept: 'Human Resources', manager: 'Sarah Jenkins', role: 'VP HR', status: 'Active', avatar: 'DM', color: '#06B6D4' },
-          { id: 'EMP-003', name: 'Haritha Langanuru', email: 'haritha@enterprise.com', dept: 'IT / Software', manager: 'David Miller', role: 'Senior Dev', status: 'Active', avatar: 'HL', color: '#6366F1' },
+          { id: 'EMP-003', name: 'Hariganesh Yadav Langanuru', email: 'hariganesh@enterprise.com', dept: 'IT / Software', manager: 'David Miller', role: 'Senior Dev', status: 'Active', avatar: 'HL', color: '#6366F1' },
           { id: 'EMP-004', name: 'Alex Rivera', email: 'alex@enterprise.com', dept: 'Operations', manager: 'Priya S.', role: 'Ops Lead', status: 'Active', avatar: 'AR', color: '#F59E0B' },
           { id: 'EMP-005', name: 'Emily Zhang', email: 'emily@enterprise.com', dept: 'Marketing', manager: 'David Miller', role: 'Lead Designer', status: 'Active', avatar: 'EZ', color: '#EC4899' }
         ],
@@ -280,7 +280,7 @@ async function approveUserRegistration(notifId, userEmailFallback) {
             content: `SECTION 4.2 — PARENTAL & PATERNITY LEAVE BENEFIT POLICY\n\nAll full-time secondary caregivers employed at SynapseAI for a minimum of 90 days are entitled to 6 weeks of 100% fully paid paternity leave.\n\nLeave requests must be submitted at least 14 days in advance via the SynapseAI Employee Portal. Hybrid work flexibility allows 3 days in office and 2 days remote per week.`
           },
           { 
-            name: 'IT_Security_Policy_v4.pdf', cat: 'Security', dept: 'IT / Infrastructure', owner: 'Haritha L.', ver: 'v4.1', status: 'Indexed', updated: '2026-07-27', cls: 'rb-hr',
+            name: 'IT_Security_Policy_v4.pdf', cat: 'Security', dept: 'IT / Infrastructure', owner: 'Hariganesh Y.', ver: 'v4.1', status: 'Indexed', updated: '2026-07-27', cls: 'rb-hr',
             content: `SECTION 1.0 — ENTERPRISE IT & INFRASTRUCTURE SECURITY POLICY\n\n1. Multi-Factor Authentication (MFA) is mandatory for all employee accounts across Google Workspace, GitHub, and AWS.\n2. All corporate laptops must run encrypted disk storage (BitLocker/FileVault) and connect via SynapseAI WireGuard VPN.\n3. Password rotation is enforced every 90 days with minimum 16 characters.`
           },
           { 
@@ -326,7 +326,7 @@ async function approveUserRegistration(notifId, userEmailFallback) {
           { id: 'feat_meetings', icon: 'fa-calendar-days', label: 'Meetings' },
           { id: 'feat_announcements', icon: 'fa-bullhorn', label: 'Announcements' },
           { id: 'feat_profile', icon: 'fa-user-gear', label: 'Profile & Settings' }, { id: 'feat_notifications', icon: 'fa-bell', label: 'Notifications' }, ],
-        heroHeading: 'Good Morning, Haritha 👋',
+        heroHeading: 'Good Morning, Hariganesh 👋',
         heroDesc: `Your personal AI Assistant has processed today's briefing. You have 14 PTO days available and 2 team sync meetings scheduled.`,
         stats: [
           { title: "Paid Time Off Available", num: "14 Days", desc: "6 Weeks Parental Leave Eligible" },
@@ -2830,13 +2830,13 @@ function approveEmailRequest(notifId) {
                   <div style="display:flex; align-items:center; gap:12px; min-width:0;">
                     <span class="sec-dot sec-dot-green"></span>
                     <div style="min-width:0;">
-                      <div style="font-weight:700; font-size:0.88rem; color:white;">Haritha L.</div>
+                      <div style="font-weight:700; font-size:0.88rem; color:white;">Hariganesh Y.</div>
                       <div style="font-size:0.73rem; color:var(--text-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Chrome / Windows • 192.168.1.41 (Hyderabad, IN)</div>
                     </div>
                   </div>
                   <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
                     <span class="sec-badge sec-badge-green">Admin</span>
-                    <button class="btn-act" onclick="sysadminTerminateSession('Haritha L.', '192.168.1.41', 'session-row-haritha')" style="padding:4px 8px; font-size:0.7rem;" title="Disconnect session"><i class="fa-solid fa-power-off" style="color:var(--status-rose)"></i></button>
+                    <button class="btn-act" onclick="sysadminTerminateSession('Hariganesh Y.', '192.168.1.41', 'session-row-haritha')" style="padding:4px 8px; font-size:0.7rem;" title="Disconnect session"><i class="fa-solid fa-power-off" style="color:var(--status-rose)"></i></button>
                   </div>
                 </div>
 
@@ -3860,7 +3860,7 @@ function approveEmailRequest(notifId) {
               <div style="background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.2); padding:12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
                 <div>
                   <b style="font-size:0.8rem; color:var(--status-emerald); display:block;"><i class="fa-solid fa-circle-check"></i> Employee Acknowledgment Status</b>
-                  <span style="font-size:0.75rem; color:var(--text-muted);">Signed by Haritha Langanuru</span>
+                  <span style="font-size:0.75rem; color:var(--text-muted);">Signed by Hariganesh Yadav Langanuru</span>
                 </div>
                 <span class="role-badge-inline ${selAnn.status === 'Signed' ? 'rb-emerald' : 'rb-hr'}">${selAnn.status}</span>
               </div>
@@ -5024,8 +5024,8 @@ function approveEmailRequest(notifId) {
     var sysadminActiveSessionsCount = 5;
 
     var SYSADMIN_AUDIT_LOG_ALL = [
-      {ts:'2026-07-31 00:12:04', user:'Haritha L. (Admin)', action:'User Login', module:'Authentication', ip:'192.168.1.41', status:'Success'},
-      {ts:'2026-07-31 00:09:18', user:'Haritha L. (Admin)', action:'Role Updated — Rahul K. → Manager', module:'Access Control', ip:'192.168.1.41', status:'Success'},
+      {ts:'2026-07-31 00:12:04', user:'Hariganesh Y. (Admin)', action:'User Login', module:'Authentication', ip:'192.168.1.41', status:'Success'},
+      {ts:'2026-07-31 00:09:18', user:'Hariganesh Y. (Admin)', action:'Role Updated — Rahul K. → Manager', module:'Access Control', ip:'192.168.1.41', status:'Success'},
       {ts:'2026-07-31 00:05:33', user:'Meera J. (HR)', action:'Document Permission Changed', module:'Knowledge Base', ip:'192.168.1.55', status:'Success'},
       {ts:'2026-07-30 23:55:10', user:'David M. (Manager)', action:'Knowledge Base Updated', module:'Knowledge Base', ip:'192.168.1.60', status:'Success'},
       {ts:'2026-07-30 23:40:02', user:'Priya S. (HR)', action:'Policy Published — Leave Policy 2026', module:'Policy', ip:'10.0.0.18', status:'Success'},
@@ -5033,8 +5033,8 @@ function approveEmailRequest(notifId) {
       {ts:'2026-07-30 23:15:07', user:'Unknown', action:'Failed Login Attempt (3×)', module:'Authentication', ip:'185.220.101.14', status:'Failed'},
       {ts:'2026-07-30 22:58:31', user:'Sai P. (Employee)', action:'Unauthorized Access Attempt', module:'HR Records', ip:'10.0.0.88', status:'Failed'},
       {ts:'2026-07-30 22:30:00', user:'System Scheduler', action:'Automated Database Backup', module:'System', ip:'localhost', status:'Success'},
-      {ts:'2026-07-30 21:14:19', user:'Haritha L. (Admin)', action:'Security Scan Completed', module:'Security', ip:'192.168.1.41', status:'Success'},
-      {ts:'2026-07-30 20:45:00', user:'Haritha L. (Admin)', action:'MFA Policy Enforced — Engineering Team', module:'Access Control', ip:'192.168.1.41', status:'Success'},
+      {ts:'2026-07-30 21:14:19', user:'Hariganesh Y. (Admin)', action:'Security Scan Completed', module:'Security', ip:'192.168.1.41', status:'Success'},
+      {ts:'2026-07-30 20:45:00', user:'Hariganesh Y. (Admin)', action:'MFA Policy Enforced — Engineering Team', module:'Access Control', ip:'192.168.1.41', status:'Success'},
       {ts:'2026-07-30 19:33:52', user:'Meera J. (HR)', action:'Bulk User Import (22 records)', module:'HR Operations', ip:'192.168.1.55', status:'Warning'},
 
       // Page 2 data
@@ -5043,12 +5043,12 @@ function approveEmailRequest(notifId) {
       {ts:'2026-07-30 17:45:19', user:'System Scheduler', action:'Vector Store Re-index Completed', module:'Knowledge Base', ip:'localhost', status:'Success'},
       {ts:'2026-07-30 16:30:00', user:'Priya S. (HR)', action:'Employee Onboarding Invitation Dispatched', module:'HR Operations', ip:'10.0.0.18', status:'Success'},
       {ts:'2026-07-30 15:10:44', user:'Unknown', action:'Invalid API Token Access Attempt', module:'Security', ip:'198.51.100.77', status:'Failed'},
-      {ts:'2026-07-30 14:05:22', user:'Haritha L. (Admin)', action:'System Configuration Modified', module:'System', ip:'192.168.1.41', status:'Warning'},
+      {ts:'2026-07-30 14:05:22', user:'Hariganesh Y. (Admin)', action:'System Configuration Modified', module:'System', ip:'192.168.1.41', status:'Warning'},
       {ts:'2026-07-30 13:00:15', user:'Meera J. (HR)', action:'Salary Benchmark Document Uploaded', module:'Knowledge Base', ip:'192.168.1.55', status:'Success'},
       {ts:'2026-07-30 12:15:30', user:'Rahul K. (Employee)', action:'Access Request Submitted (Manager)', module:'Access Control', ip:'192.168.1.72', status:'Success'},
       {ts:'2026-07-30 11:40:00', user:'System Scheduler', action:'Audit Log Rotated & Compressed', module:'System', ip:'localhost', status:'Success'},
       {ts:'2026-07-30 10:20:18', user:'Sai P. (Employee)', action:'User Login', module:'Authentication', ip:'10.0.0.88', status:'Success'},
-      {ts:'2026-07-30 09:14:00', user:'Haritha L. (Admin)', action:'MFA Challenge Verified', module:'Authentication', ip:'192.168.1.41', status:'Success'},
+      {ts:'2026-07-30 09:14:00', user:'Hariganesh Y. (Admin)', action:'MFA Challenge Verified', module:'Authentication', ip:'192.168.1.41', status:'Success'},
       {ts:'2026-07-30 08:30:00', user:'System Scheduler', action:'Daily Security Vulnerability Sync', module:'Security', ip:'localhost', status:'Success'},
 
       // Page 3 data
@@ -5057,7 +5057,7 @@ function approveEmailRequest(notifId) {
       {ts:'2026-07-29 18:00:00', user:'System Scheduler', action:'Incremental Database Backup', module:'System', ip:'localhost', status:'Success'},
       {ts:'2026-07-29 16:45:12', user:'Priya S. (HR)', action:'Leave Policy Revision 2.4 Created', module:'Policy', ip:'10.0.0.18', status:'Success'},
       {ts:'2026-07-29 14:30:00', user:'Unknown', action:'Port Scan Detected (Blocked)', module:'Security', ip:'198.51.100.99', status:'Failed'},
-      {ts:'2026-07-29 12:00:00', user:'Haritha L. (Admin)', action:'Pinecone Index API Key Rotated', module:'Security', ip:'192.168.1.41', status:'Success'},
+      {ts:'2026-07-29 12:00:00', user:'Hariganesh Y. (Admin)', action:'Pinecone Index API Key Rotated', module:'Security', ip:'192.168.1.41', status:'Success'},
     ];
 
     var BACKUP_HISTORY_DATA = [
@@ -5210,7 +5210,7 @@ function approveEmailRequest(notifId) {
 
         SYSADMIN_AUDIT_LOG_ALL.unshift({
           ts: now.toISOString().replace('T',' ').substring(0,19),
-          user: 'Haritha L. (Admin)',
+          user: 'Hariganesh Y. (Admin)',
           action: 'Manual Database Backup Executed',
           module: 'System',
           ip: '192.168.1.41',
@@ -5355,7 +5355,7 @@ function approveEmailRequest(notifId) {
         const recipient = document.getElementById('email-report-recipient').value.trim() || 'board@enterprise.com';
         const subject = document.getElementById('email-report-subject').value.trim() || 'SynapseAI Enterprise Security Audit Report';
         const extraNotes = document.getElementById('email-report-notes').value.trim();
-        const body = `Dear Board of Directors,\n\nPlease find the SynapseAI Enterprise Security Audit Report below.\n\nExecutive Security & Compliance Audit Brief\nGenerated on: 2026-07-31\nSecurity Level: ENTERPRISE GRADE (98/100)\n\nKey Metrics:\n- MFA Enforcement: 96.4% (273 of 284 Users MFA Active)\n- RLS Security: 100% (Supabase Postgres Row Policies Enforced)\n- Compliance Audit: PASSED (ISO 27001 & SOC 2 Type II Certified)\n\nExecutive Summary Findings:\n- Zero critical unpatched security vulnerabilities across 14 enterprise microservices.\n- Suspicious brute-force attempt from Moscow RU automatically intercepted and IP isolated.\n- Role-Based Access Control (RBAC) enforced with 100% boundary isolation.\n- Automated incremental backups verified daily with 100% restore integrity.\n${extraNotes ? '\nAdditional Notes:\n' + extraNotes + '\n' : ''}\nBest regards,\nSynapseAI Security Center\nAdmin: Haritha L.`;
+        const body = `Dear Board of Directors,\n\nPlease find the SynapseAI Enterprise Security Audit Report below.\n\nExecutive Security & Compliance Audit Brief\nGenerated on: 2026-07-31\nSecurity Level: ENTERPRISE GRADE (98/100)\n\nKey Metrics:\n- MFA Enforcement: 96.4% (273 of 284 Users MFA Active)\n- RLS Security: 100% (Supabase Postgres Row Policies Enforced)\n- Compliance Audit: PASSED (ISO 27001 & SOC 2 Type II Certified)\n\nExecutive Summary Findings:\n- Zero critical unpatched security vulnerabilities across 14 enterprise microservices.\n- Suspicious brute-force attempt from Moscow RU automatically intercepted and IP isolated.\n- Role-Based Access Control (RBAC) enforced with 100% boundary isolation.\n- Automated incremental backups verified daily with 100% restore integrity.\n${extraNotes ? '\nAdditional Notes:\n' + extraNotes + '\n' : ''}\nBest regards,\nSynapseAI Security Center\nAdmin: Hariganesh Y.`;
         closeInteractiveModal();
         toast('📧 Dispatching report to Board...', 'info');
         fetch('http://localhost:8000/api/v1/email/send', {
@@ -5470,7 +5470,7 @@ function approveEmailRequest(notifId) {
 
           <div style="display:flex; flex-direction:column; gap:10px; font-size:0.85rem;">
             <div style="background:rgba(255,255,255,0.03); padding:12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
-              <div><b>Haritha L.</b> (Admin) • <code>192.168.1.41</code><div style="font-size:0.72rem; color:var(--text-dim)">Connected via TLS v1.3 • Token Exp: 8h</div></div>
+              <div><b>Hariganesh Y.</b> (Admin) • <code>192.168.1.41</code><div style="font-size:0.72rem; color:var(--text-dim)">Connected via TLS v1.3 • Token Exp: 8h</div></div>
               <span class="sec-badge sec-badge-green">Active</span>
             </div>
             <div style="background:rgba(255,255,255,0.03); padding:12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
@@ -5529,7 +5529,7 @@ function approveEmailRequest(notifId) {
 
       SYSADMIN_AUDIT_LOG_ALL.unshift({
         ts: new Date().toISOString().replace('T',' ').substring(0,19),
-        user: 'Haritha L. (Admin)',
+        user: 'Hariganesh Y. (Admin)',
         action: `Terminated Session for ${username} (${ip})`,
         module: 'Access Control',
         ip: '192.168.1.41',
@@ -5581,7 +5581,7 @@ function approveEmailRequest(notifId) {
         closeInteractiveModal();
         SYSADMIN_AUDIT_LOG_ALL.unshift({
           ts: new Date().toISOString().replace('T',' ').substring(0,19),
-          user: 'Haritha L. (Admin)',
+          user: 'Hariganesh Y. (Admin)',
           action: `Updated Permissions for ${roleName} Role`,
           module: 'Access Control',
           ip: '192.168.1.41',
@@ -5608,7 +5608,7 @@ function approveEmailRequest(notifId) {
         
         SYSADMIN_AUDIT_LOG_ALL.unshift({
           ts: new Date().toISOString().replace('T',' ').substring(0,19),
-          user: 'Haritha L. (Admin)',
+          user: 'Hariganesh Y. (Admin)',
           action: `Approved Access Upgrade for ${user} → ${toRole}`,
           module: 'Access Control',
           ip: '192.168.1.41',
@@ -5624,7 +5624,7 @@ function approveEmailRequest(notifId) {
 
         SYSADMIN_AUDIT_LOG_ALL.unshift({
           ts: new Date().toISOString().replace('T',' ').substring(0,19),
-          user: 'Haritha L. (Admin)',
+          user: 'Hariganesh Y. (Admin)',
           action: `Denied Access Request for ${user}`,
           module: 'Access Control',
           ip: '192.168.1.41',
@@ -5651,7 +5651,7 @@ function approveEmailRequest(notifId) {
 
       SYSADMIN_AUDIT_LOG_ALL.unshift({
         ts: new Date().toISOString().replace('T',' ').substring(0,19),
-        user: 'Haritha L. (Admin)',
+        user: 'Hariganesh Y. (Admin)',
         action: `Permanently Blocked IP ${ip} (Firewall Rule Added)`,
         module: 'Security',
         ip: '192.168.1.41',
@@ -5723,7 +5723,7 @@ function approveEmailRequest(notifId) {
       if (alertsBadge) alertsBadge.textContent = sysadminActiveAlertsCount + ' Active';
       SYSADMIN_AUDIT_LOG_ALL.unshift({
         ts: new Date().toISOString().replace('T',' ').substring(0,19),
-        user: 'Haritha L. (Admin)',
+        user: 'Hariganesh Y. (Admin)',
         action: `Session Revoked — ${username} (Privilege Escalation Attempt)`,
         module: 'Access Control',
         ip: '192.168.1.41',
@@ -5770,7 +5770,7 @@ function approveEmailRequest(notifId) {
         if (alertsBadge) alertsBadge.textContent = sysadminActiveAlertsCount + ' Active';
         SYSADMIN_AUDIT_LOG_ALL.unshift({
           ts: new Date().toISOString().replace('T',' ').substring(0,19),
-          user: 'Haritha L. (Admin)',
+          user: 'Hariganesh Y. (Admin)',
           action: `Alert Investigated & Closed — ${title}`,
           module: 'Security',
           ip: '192.168.1.41',
@@ -5796,7 +5796,7 @@ function approveEmailRequest(notifId) {
       if (alertsBadge) alertsBadge.textContent = sysadminActiveAlertsCount + ' Active';
       SYSADMIN_AUDIT_LOG_ALL.unshift({
         ts: new Date().toISOString().replace('T',' ').substring(0,19),
-        user: 'Haritha L. (Admin)',
+        user: 'Hariganesh Y. (Admin)',
         action: 'Forced MFA Token Rotation for 11 Users',
         module: 'Authentication',
         ip: '192.168.1.41',
@@ -5975,7 +5975,7 @@ function approveEmailRequest(notifId) {
 
 - **Department Overall Health:** 🟢 **86% Optimal**
 - **Active Projects:** 27 Initiatives (20 Healthy, 5 At Risk, 2 Blocked)
-- **SynapseAI Core OS:** **96% Progress** — Lead: Haritha L. (Healthy)
+- **SynapseAI Core OS:** **96% Progress** — Lead: Hariganesh Y. (Healthy)
 - **RAG Pipeline v2:** **65% Progress** — Lead: Rahul K. (At Risk: GPU cluster scaling needed)
 - **Cloud Migration EU:** **42% Progress** — Lead: Sarah J. (Blocked: Security sign-off pending)
 - **Weekly Sprint Velocity:** **84 / 90 Story Points** completed (93.3% completion rate)
@@ -6917,7 +6917,7 @@ Document **Marketing_Policy_2024.pdf** (ID: \`doc-mkt-9402\`) has been removed f
         const res = await fetch('/api/v1/email/draft', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt, recipient: 'harithalanganuru@gmail.com' }),
+          body: JSON.stringify({ prompt, recipient: 'hariganeshlanganuru@gmail.com' }),
         });
         const json = await res.json();
         if (json.data) {
@@ -7125,7 +7125,7 @@ Document **Marketing_Policy_2024.pdf** (ID: \`doc-mkt-9402\`) has been removed f
 // =========================================================================
 window.managerState = {
   projects: [
-    { id: 'INFRA-902', name: 'SynapseAI Core OS', lead: 'Haritha L.', progress: 96, label: 'Q3 Delivery', health: 'Healthy', cls: 'rb-employee', barColor: 'var(--status-emerald)' },
+    { id: 'INFRA-902', name: 'SynapseAI Core OS', lead: 'Hariganesh Y.', progress: 96, label: 'Q3 Delivery', health: 'Healthy', cls: 'rb-employee', barColor: 'var(--status-emerald)' },
     { id: 'AI-105', name: 'RAG Pipeline v2 Expansion', lead: 'Rahul K.', progress: 65, label: 'Delay Risk', health: 'At Risk', cls: 'rb-manager', barColor: 'var(--status-amber)' },
     { id: 'OPS-404', name: 'Cloud Migration EU', lead: 'Sarah J.', progress: 42, label: 'Blocked', health: 'Blocked', cls: 'rb-hr', barColor: 'var(--status-rose)', healthStyle: 'color:var(--status-rose); border-color:var(--status-rose);' },
     { id: 'MOB-120', name: 'Mobile App Re-architecture', lead: 'Mark T.', progress: 15, label: 'Q4 Delivery', health: 'Healthy', cls: 'rb-employee', barColor: 'var(--status-emerald)' },
@@ -7133,7 +7133,7 @@ window.managerState = {
     { id: 'SEC-99', name: 'SOC2 Compliance Audit', lead: 'Alex R.', progress: 100, label: 'Complete', health: 'Completed', cls: 'rb-employee', barColor: 'var(--status-emerald)', healthStyle: 'background:rgba(16,185,129,0.2);color:#A7F3D0;' }
   ],
   team: [
-    { id: 'haritha', name: 'Haritha L.', role: 'Senior Dev', tasks: 12, util: 110, utilText: '110% Utilized', barColor: 'var(--status-rose)', overallocated: true },
+    { id: 'haritha', name: 'Hariganesh Y.', role: 'Senior Dev', tasks: 12, util: 110, utilText: '110% Utilized', barColor: 'var(--status-rose)', overallocated: true },
     { id: 'rahul', name: 'Rahul K.', role: 'Backend Dev', tasks: 4, util: 65, utilText: '65% Utilized', barColor: 'var(--status-emerald)', overallocated: false },
     { id: 'emily', name: 'Emily Z.', role: 'UX Designer', tasks: 7, util: 85, utilText: '85% Utilized', barColor: 'var(--status-amber)', overallocated: false },
     { id: 'mark', name: 'Mark T.', role: 'Frontend Dev', tasks: 14, util: 120, utilText: '120% Utilized', barColor: 'var(--status-rose)', overallocated: true },
@@ -7141,7 +7141,7 @@ window.managerState = {
     { id: 'alex', name: 'Alex R.', role: 'DevOps Lead', tasks: 6, util: 70, utilText: '70% Utilized', barColor: 'var(--status-emerald)', overallocated: false }
   ],
   approvals: [
-    { id: 'REQ-992', submitter: 'Haritha L.', avatar: 'H', title: '3-Day Leave Request', sub: 'No deadline conflicts', date: 'Today, 09:15 AM' },
+    { id: 'REQ-992', submitter: 'Hariganesh Y.', avatar: 'H', title: '3-Day Leave Request', sub: 'No deadline conflicts', date: 'Today, 09:15 AM' },
     { id: 'EXP-401', submitter: 'David M.', avatar: 'D', title: 'Software License Expense', sub: '$1,200 (Requires VP signoff)', date: 'Yesterday, 14:30' },
     { id: 'REQ-988', submitter: 'Priya S.', avatar: 'P', title: 'Remote Work Setup', sub: 'Within policy limit', date: 'Mon, 11:00 AM' },
     { id: 'EXP-415', submitter: 'Mark T.', avatar: 'M', title: 'Client Dinner Expense', sub: '$340 (Missing receipt)', date: 'Fri, 18:45' },
@@ -7161,8 +7161,8 @@ window.managerState = {
   reportConfig: { velocity: true, budget: true, timesheet: false, slack: true },
   meetings: [
     { id: 'm1', time: '10:00 AM', duration: '45 mins', title: 'Engineering Sync', sub: 'Weekly status update', organizer: 'David M.', platform: 'Teams', active: true, connected: false },
-    { id: 'm2', time: '11:30 AM', duration: '30 mins', title: 'Architecture Review: RAG v2', sub: 'AI infrastructure scaling', organizer: 'Haritha L.', platform: 'Teams', active: true, connected: false },
-    { id: 'm3', time: '1:30 PM', duration: '30 mins', title: '1:1 with Haritha', sub: 'Performance check-in', organizer: 'David M.', platform: 'Zoom', active: false, connected: false },
+    { id: 'm2', time: '11:30 AM', duration: '30 mins', title: 'Architecture Review: RAG v2', sub: 'AI infrastructure scaling', organizer: 'Hariganesh Y.', platform: 'Teams', active: true, connected: false },
+    { id: 'm3', time: '1:30 PM', duration: '30 mins', title: '1:1 with Hariganesh', sub: 'Performance check-in', organizer: 'David M.', platform: 'Zoom', active: false, connected: false },
     { id: 'm4', time: '3:00 PM', duration: '60 mins', title: 'Q3 Planning Workshop', sub: 'Cross-functional alignment', organizer: 'Sarah J.', platform: 'Teams', active: false, connected: false },
     { id: 'm5', time: '4:30 PM', duration: '45 mins', title: 'Security Incident Post-Mortem', sub: 'Review audit findings', organizer: 'Alex R.', platform: 'Zoom', active: false, connected: false }
   ],
@@ -7371,7 +7371,7 @@ function generateAIMeetingSummary() {
           <span style="font-size:0.75rem; color:var(--status-emerald); background:rgba(16,185,129,0.15); padding:2px 8px; border-radius:4px;">Generated 100% Complete</span>
         </div>
         <ul style="font-size:0.88rem; color:var(--text-main); line-height:1.6; margin:0; padding-left:20px;">
-          <li><b>Sprint Sync:</b> Core OS deployment is 96% complete. Haritha L. requested additional QA review before Friday.</li>
+          <li><b>Sprint Sync:</b> Core OS deployment is 96% complete. Hariganesh Y. requested additional QA review before Friday.</li>
           <li><b>Architecture Review:</b> RAG v2 Expansion needs 15% GPU cluster scaling. AI decision engine recommends reallocating $4.2k cloud budget.</li>
           <li><b>Action Items:</b> Mark T. to finalize frontend components; David M. to approve AWS clearance for Alex R.</li>
         </ul>
@@ -7479,8 +7479,8 @@ const SPECIFIC_REPORT_TEMPLATES = {
     subtitle: "Sprint Burndown & Task Completion Analytics",
     sections: [
       { title: "1. Current Sprint Velocity", content: "Team completed 84 out of 90 planned story points this sprint (93.3% velocity rate). Average cycle time dropped from 3.2 days to 2.4 days." },
-      { title: "2. Member Workload Breakdown", content: "Haritha L. (12 Tasks / 28 pts), Rahul K. (8 Tasks / 18 pts), Mark T. (14 Tasks / 24 pts), Emily Z. (7 Tasks / 14 pts)." },
-      { title: "3. Blockers & Mitigations", content: "RAG Pipeline v2 expansion pending additional GPU cluster provisioning. Reallocated 2 tasks from Haritha to Rahul to balance workload." }
+      { title: "2. Member Workload Breakdown", content: "Hariganesh Y. (12 Tasks / 28 pts), Rahul K. (8 Tasks / 18 pts), Mark T. (14 Tasks / 24 pts), Emily Z. (7 Tasks / 14 pts)." },
+      { title: "3. Blockers & Mitigations", content: "RAG Pipeline v2 expansion pending additional GPU cluster provisioning. Reallocated 2 tasks from Hariganesh to Rahul to balance workload." }
     ]
   },
   "Monthly Budget Burn": {
@@ -8537,7 +8537,7 @@ if (!window.hrState) window.hrState = {};
 
 if (!window.hrState.employeeDirectory) {
   window.hrState.employeeDirectory = [
-    { id: 'e1', name: 'Haritha L.', role: 'Senior Software Engineer', dept: 'Engineering', email: 'haritha.l@synapseai.com', rating: '4.9/5', mode: 'Hybrid', status: 'Active' },
+    { id: 'e1', name: 'Hariganesh Y.', role: 'Senior Software Engineer', dept: 'Engineering', email: 'hariganesh.l@synapseai.com', rating: '4.9/5', mode: 'Hybrid', status: 'Active' },
     { id: 'e2', name: 'Priya S.', role: 'Frontend Lead', dept: 'Engineering', email: 'priya.s@synapseai.com', rating: '4.8/5', mode: 'Remote', status: 'Active' },
     { id: 'e3', name: 'Rahul K.', role: 'AI Platform Specialist', dept: 'AI Core', email: 'rahul.k@synapseai.com', rating: '4.7/5', mode: 'Onsite', status: 'Active' },
     { id: 'e4', name: 'Sarah J.', role: 'Cloud Operations Lead', dept: 'Operations', email: 'sarah.j@synapseai.com', rating: '4.9/5', mode: 'Hybrid', status: 'Active' },
@@ -9483,7 +9483,7 @@ function downloadSkillCertificate(fileName) {
           <div style="font-size: 3rem; color: #06b6d4; margin-bottom: 10px;">??</div>
           <h1 style="font-size: 32px; color: #0f172a; margin: 0 0 20px 0; letter-spacing: 2px;">CERTIFICATE OF ACHIEVEMENT</h1>
           <div style="font-size: 18px; color: #64748b; margin-bottom: 15px;">This certifies that</div>
-          <div style="font-size: 36px; color: #0f172a; font-weight: bold; margin-bottom: 15px; font-family: serif;">Haritha Langanuru</div>
+          <div style="font-size: 36px; color: #0f172a; font-weight: bold; margin-bottom: 15px; font-family: serif;">Hariganesh Yadav Langanuru</div>
           <div style="font-size: 18px; color: #64748b; margin-bottom: 20px;">has successfully completed the professional course</div>
           <h2 style="font-size: 24px; color: #06b6d4; margin: 20px 0;">${cleanTitle}</h2>
           <div style="margin-top: 40px; font-size: 13px; color: #94a3b8; border-top: 1px solid #ccc; padding-top: 20px;">
@@ -9788,11 +9788,11 @@ if (!window.employeeState) window.employeeState = {};
 
 if (!window.employeeState.profile) {
   window.employeeState.profile = {
-    name: 'Haritha Langanuru',
+    name: 'Hariganesh Yadav Langanuru',
     title: 'Senior Software Engineer',
     dept: 'Engineering & Architecture',
     empId: 'EMP-2026-8894',
-    email: 'haritha.l@synapseai.com',
+    email: 'hariganesh.l@synapseai.com',
     phone: '+1 (555) 234-5678',
     location: 'San Francisco HQ — Hybrid',
     emergencyContact: 'David Langanuru • +1 (555) 999-8877',
@@ -9969,7 +9969,7 @@ function renderAuthModalContent(mode, targetRole = 'Employee') {
         </select>
 
         <label style="font-size:0.8rem; color:#94A3B8; display:block; margin-bottom:4px;">Email Address</label>
-        <input type="email" id="auth-email" class="input-box" placeholder="e.g. haritha.l@synapseai.com" style="margin-bottom:14px; width:100%;" value="${targetRole === 'HR' ? 'hr@synapseai.com' : targetRole === 'Manager' ? 'manager@synapseai.com' : targetRole === 'Admin' ? 'admin@synapseai.com' : 'haritha.l@synapseai.com'}">
+        <input type="email" id="auth-email" class="input-box" placeholder="e.g. hariganesh.l@synapseai.com" style="margin-bottom:14px; width:100%;" value="${targetRole === 'HR' ? 'hr@synapseai.com' : targetRole === 'Manager' ? 'manager@synapseai.com' : targetRole === 'Admin' ? 'admin@synapseai.com' : 'hariganesh.l@synapseai.com'}">
 
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
           <label style="font-size:0.8rem; color:#94A3B8;">Password</label>
@@ -9996,10 +9996,10 @@ function renderAuthModalContent(mode, targetRole = 'Employee') {
         </div>
 
         <label style="font-size:0.8rem; color:#94A3B8; display:block; margin-bottom:4px;">Full Name</label>
-        <input type="text" id="reg-name" class="input-box" placeholder="e.g. Haritha Langanuru" style="margin-bottom:12px; width:100%;">
+        <input type="text" id="reg-name" class="input-box" placeholder="e.g. Hariganesh Yadav Langanuru" style="margin-bottom:12px; width:100%;">
 
         <label style="font-size:0.8rem; color:#94A3B8; display:block; margin-bottom:4px;">Email Address (Confirmation code will be sent here)</label>
-        <input type="email" id="reg-email" class="input-box" placeholder="e.g. harithalanganuru@gmail.com" style="margin-bottom:12px; width:100%;">
+        <input type="email" id="reg-email" class="input-box" placeholder="e.g. hariganeshlanganuru@gmail.com" style="margin-bottom:12px; width:100%;">
 
         <label style="font-size:0.8rem; color:#94A3B8; display:block; margin-bottom:4px;">Password</label>
         <input type="password" id="reg-pass" class="input-box" placeholder="Create strong password..." style="margin-bottom:12px; width:100%;">
@@ -10187,10 +10187,10 @@ function submitSignIn(forcedRole) {
   if (window.authState) window.authState.registeredUsers = freshUsers;
 
   // Admin shortcut
-  if (email.toLowerCase() === 'harithalanganuru@gmail.com' || role === 'Admin') {
+  if (email.toLowerCase() === 'hariganeshlanganuru@gmail.com' || role === 'Admin') {
     let adminUser = freshUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
     if (!adminUser) {
-      adminUser = { email, pass, name: 'Haritha Langanuru', role: 'Admin', dept: 'System Security', status: 'Approved' };
+      adminUser = { email, pass, name: 'Hariganesh Yadav Langanuru', role: 'Admin', dept: 'System Security', status: 'Approved' };
       window.authState.registeredUsers.push(adminUser);
       savePersistentRegisteredUsers();
     }
@@ -10206,7 +10206,7 @@ function submitSignIn(forcedRole) {
     if (mainWorkspace) mainWorkspace.style.setProperty('display', 'flex', 'important');
     if (typeof enforceRoleIsolation === 'function') enforceRoleIsolation('Admin');
     if (typeof switchRole === 'function') switchRole('Admin');
-    toast('Admin Authenticated! Welcome, Haritha Langanuru.', 'success');
+    toast('Admin Authenticated! Welcome, Hariganesh Yadav Langanuru.', 'success');
     return;
   }
 
@@ -10401,7 +10401,7 @@ function renderAuthModalContent(mode, targetRole = 'Employee') {
   const isAdmin = (targetRole === 'Admin');
 
   if (mode === 'signin') {
-    const defaultEmail = isAdmin ? 'harithalanganuru@gmail.com' : targetRole === 'HR' ? 'hr@synapseai.com' : targetRole === 'Manager' ? 'manager@synapseai.com' : 'haritha.l@synapseai.com';
+    const defaultEmail = isAdmin ? 'hariganeshlanganuru@gmail.com' : targetRole === 'HR' ? 'hr@synapseai.com' : targetRole === 'Manager' ? 'manager@synapseai.com' : 'hariganesh.l@synapseai.com';
 
     modal.innerHTML = `
       <div class="glass-card" style="width:430px; padding:32px; animation:fadeIn 0.25 ease; border:1px solid ${isAdmin ? '#F43F5E' : '#06B6D4'}; background:#0F172A;">
@@ -10456,7 +10456,7 @@ function renderAuthModalContent(mode, targetRole = 'Employee') {
         </div>
 
         <label style="font-size:0.8rem; color:#94A3B8; display:block; margin-bottom:4px;">Full Name</label>
-        <input type="text" id="reg-name" class="input-box" placeholder="e.g. Haritha Langanuru" style="margin-bottom:12px; width:100%;">
+        <input type="text" id="reg-name" class="input-box" placeholder="e.g. Hariganesh Yadav Langanuru" style="margin-bottom:12px; width:100%;">
 
         <label style="font-size:0.8rem; color:#94A3B8; display:block; margin-bottom:4px;">Email Address</label>
         <input type="email" id="reg-email" class="input-box" placeholder="e.g. employee@company.com" style="margin-bottom:12px; width:100%;">
@@ -10618,7 +10618,7 @@ async function submitSignUpEmailCode() {
 
   // Push pending access request to Approver immediately
   const approverRole = role === 'Employee' ? 'Manager' : 'Admin';
-  const approverEmail = role === 'Employee' ? 'manager@synapseai.com' : 'harithalanganuru@gmail.com';
+  const approverEmail = role === 'Employee' ? 'manager@synapseai.com' : 'hariganeshlanganuru@gmail.com';
   def_dispatch_notification(
     approverRole,
     approverEmail,
@@ -10697,7 +10697,7 @@ function verifyEmailCodeAndLogin() {
   window.authState.pendingVerification = null;
 
   // Dispatch approval notification to the correct approver
-  const approverEmail = pending.role === 'Employee' ? 'manager@synapseai.com' : 'harithalanganuru@gmail.com';
+  const approverEmail = pending.role === 'Employee' ? 'manager@synapseai.com' : 'hariganeshlanganuru@gmail.com';
   def_dispatch_notification(
     approverRole,
     approverEmail,

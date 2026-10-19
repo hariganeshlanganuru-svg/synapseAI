@@ -119,7 +119,7 @@ async def get_organization_map():
                 },
                 {
                     "name": "Engineering & Technology",
-                    "lead": "Haritha Langanuru (Engineering Director)",
+                    "lead": "Hariganesh Yadav Langanuru (Engineering Director)",
                     "projects": ["SynapseAI OS Core", "RAG Pipeline v2"],
                     "documents": ["IT_Security_Policy_v4.pdf"]
                 }
@@ -210,7 +210,7 @@ async def get_ai_logs():
         "data": [
             {
                 "timestamp": "2026-07-30 16:20:12",
-                "user": "Haritha L. (Employee)",
+                "user": "Hariganesh Y. (Employee)",
                 "query": "What is our paternity leave policy?",
                 "model": "Llama 3.3 70B",
                 "tokens": 240,
